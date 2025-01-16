@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/db/prisma";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const session = await auth();
 
