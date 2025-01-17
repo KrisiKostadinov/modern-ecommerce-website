@@ -3,14 +3,14 @@ import { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
 type ButtonProps = {
-  text: String;
+  text: string;
   icon: ReactNode;
-  link?: String | null;
+  link?: string | null;
   callback?: () => void;
 };
 
 type PageHeaderProps = {
-  heading: String;
+  heading: string;
   loading?: boolean;
   button?: ButtonProps | null;
 };
