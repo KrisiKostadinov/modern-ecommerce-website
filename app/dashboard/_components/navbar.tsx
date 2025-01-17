@@ -1,8 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { JSX, SVGProps, useState } from "react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 import {
@@ -15,14 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
-  const pathname = usePathname();
-  const session = useSession();
-  
   const [isOpen, setIsOpen] = useState(false);
-
-  if (pathname.startsWith("/dashboard")) {
-    return null;
-  }
 
   return (
     <header className="bg-white shadow flex h-20 w-full shrink-0 justify-between items-center px-4 md:px-6">
@@ -42,15 +33,23 @@ export default function Navbar() {
             <SheetDescription asChild>
               <div className="grid gap-2 py-6">
                 <Link
-                  href="/"
+                  href="/dashboard"
                   className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
                   prefetch={false}
                   onClick={() => setIsOpen(false)}
                 >
-                  Начало
+                  Табло
                 </Link>
                 <Link
-                  href="/products"
+                  href="/dashboard/users"
+                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                  prefetch={false}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Потребители
+                </Link>
+                <Link
+                  href="/dashboard/products"
                   className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
                   prefetch={false}
                   onClick={() => setIsOpen(false)}
@@ -58,97 +57,54 @@ export default function Navbar() {
                   Продукти
                 </Link>
                 <Link
-                  href="/categories"
+                  href="/dashboard/categories"
                   className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
                   prefetch={false}
                   onClick={() => setIsOpen(false)}
                 >
                   Категории
                 </Link>
-                <Link
-                  href="/contact-us"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Контакти
-                </Link>
-                {!session ? (
-                  <Link
-                    href="/login"
-                    className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                    prefetch={false}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Влизане
-                  </Link>
-                ) : (
-                  <Link
-                    href="/account"
-                    className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                    prefetch={false}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Акаунт
-                  </Link>
-                )}
               </div>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
       </Sheet>
 
-      <Link href="/" prefetch={false}>
+      <Link href="/" prefetch={false} className="flex items-center gap-2 text-xl font-semibold">
         <MountainIcon className="h-6 w-6" />
         <span className="sr-only">Acme Inc</span>
+        <span>Админ</span>
       </Link>
 
       <nav className="ml-auto hidden lg:flex">
         <Link
-          href="#"
+          href="/dashboard"
           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
           prefetch={false}
         >
-          Начало
+          Табло
         </Link>
         <Link
-          href="/products"
+          href="/dashboard/users"
+          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+          prefetch={false}
+        >
+          Потребители
+        </Link>
+        <Link
+          href="/dashboard/products"
           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
           prefetch={false}
         >
           Продукти
         </Link>
         <Link
-          href="/categories"
+          href="/dashboard/categories"
           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
           prefetch={false}
         >
           Категории
         </Link>
-        <Link
-          href="/contact-us"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Контакти
-        </Link>
-        {!session ? (
-          <Link
-            href="/login"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-            prefetch={false}
-          >
-            Влизане
-          </Link>
-        ) : (
-          <Link
-            href="/account"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-            prefetch={false}
-          >
-            Акаунт
-          </Link>
-        )}
       </nav>
     </header>
   );
