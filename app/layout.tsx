@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +21,7 @@ export default async function RootLayout({
     <html lang="bg">
       <body className="bg-slate-100">
         <SessionProvider>
+          <ToastContainer />
           <Navbar session={session} />
           {children}
         </SessionProvider>
