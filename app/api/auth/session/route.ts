@@ -6,9 +6,8 @@ export async function GET() {
     const session = await auth();
 
     if (!session || !session.user?.email) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
+      return new Response(JSON.stringify(null), {
+        status: 200,
       });
     }
 

@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { JSX, SVGProps, useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { Session } from "next-auth";
 import Link from "next/link";
 
 import {
@@ -13,11 +14,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
 
-export default function Navbar() {
+type NavbarProps = {
+  session: Session | null;
+}
+
+export default function Navbar({ session }: NavbarProps) {
   const pathname = usePathname();
-  const session = useSession();
   
   const [isOpen, setIsOpen] = useState(false);
 
