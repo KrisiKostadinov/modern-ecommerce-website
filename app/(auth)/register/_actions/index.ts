@@ -23,10 +23,15 @@ export const registerUser = async (values: FormSchemaProps) => {
 
   const hashedPassword = await bcrypt.hash(values.password, 10);
 
+  const numberOfUsers = await prisma.user.count();
+
+  const role = numberOfUsers === 0 ? "ADMIN" : "USER";
+
   await prisma.user.create({
     data: {
       email: values.email,
-      password: hashedPassword
+      password: hashedPassword,
+      role,
     },
   });
 
