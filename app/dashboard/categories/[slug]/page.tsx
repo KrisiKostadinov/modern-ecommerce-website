@@ -8,6 +8,7 @@ import ClientPage from "@/app/dashboard/categories/[slug]/_components/client-pag
 
 import UpdateName from "@/app/dashboard/categories/[slug]/_components/update-name";
 import UpdateSlug from "@/app/dashboard/categories/[slug]/_components/update-slug";
+import UpdateDescription from "./_components/update-description";
 
 export default async function UpdateCategory({
   params,
@@ -37,6 +38,10 @@ export default async function UpdateCategory({
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
         <UpdateName id={mapedId} name={mapedName} />
         {category && <UpdateSlug id={mapedId} slug={category.slug} />}
+      </div>
+      
+      <div className="mt-5">
+        {category && <UpdateDescription id={mapedId} description={category.description} />}
       </div>
     </PageWrapper>
   );
