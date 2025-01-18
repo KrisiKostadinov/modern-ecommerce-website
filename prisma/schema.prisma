@@ -87,9 +87,20 @@ model Authenticator {
 }
 
 model Category {
-  id          String @id @default(uuid()) @map("_id")
-  name        String @unique
-  slug        String @unique
+  id          String  @id @default(uuid()) @map("_id")
+  name        String  @unique
+  slug        String  @unique
   description String?
   imageUrl    String? @map("image_url")
+}
+
+model Image {
+  id     String  @id @default(uuid()) @map("_id")
+  src    String
+  width  Int?
+  height Int?
+  alt    String?
+  title  String?
+  size   Int?
+  type   String?
 }

@@ -8,7 +8,8 @@ import ClientPage from "@/app/dashboard/categories/[slug]/_components/client-pag
 
 import UpdateName from "@/app/dashboard/categories/[slug]/_components/update-name";
 import UpdateSlug from "@/app/dashboard/categories/[slug]/_components/update-slug";
-import UpdateDescription from "./_components/update-description";
+import UpdateDescription from "@/app/dashboard/categories/[slug]/_components/update-description";
+import UploadImage from "@/app/dashboard/categories/[slug]/_components/update-image";
 
 export default async function UpdateCategory({
   params,
@@ -42,6 +43,10 @@ export default async function UpdateCategory({
       
       <div className="mt-5">
         {category && <UpdateDescription id={mapedId} description={category.description} />}
+      </div>
+
+      <div className="mt-5">
+        {category && <UploadImage id={category.id} imageUrl={category.imageUrl} />}
       </div>
     </PageWrapper>
   );
