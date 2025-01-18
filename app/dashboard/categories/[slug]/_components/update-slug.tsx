@@ -18,36 +18,40 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import updateNameAction from "@/app/dashboard/categories/[slug]/_actions/update-name";
+import updateSlugAction from "@/app/dashboard/categories/[slug]/_actions/update-slug";
 
-type UpdateNameProps = {
+type UpdateSlugProps = {
   id: string | null;
-  name: string | null;
+  slug: string | null;
 };
 
 const formSchema = z.object({
-  name: z.string(),
+  slug: z.string().min(1, { message: "Това поле е задължително" }),
 });
 
 export type FormSchemaProps = z.infer<typeof formSchema>;
 
-export default function UpdateName({ id, name }: UpdateNameProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(!!!id);
+export default function UpdateName({ id, slug }: UpdateSlugProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<FormSchemaProps>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name || "",
+      slug: slug || "",
     },
   });
 
-  const displayName = name ? name : "Няма";
+  const displaySlug = slug ? slug : "Няма";
   const displayButtonText = !id ? "Добавяне" : "Редактиране";
   const displayFormButtonText = !id ? "Добавяне" : "Запазване";
 
   const onSubmit = async (values: FormSchemaProps) => {
-    const result = await updateNameAction(id, values);
+    if (!id) {
+      return toast.error("Тази категория не е намерена");
+    }
+
+    const result = await updateSlugAction(id, values);
 
     if (result.error) {
       return toast.error(result.error);
@@ -55,34 +59,27 @@ export default function UpdateName({ id, name }: UpdateNameProps) {
 
     setIsOpen(false);
     toast.success(result.message);
-
-    if (result.createdCategory) {
-      return router.push(`/dashboard/categories/${result.createdCategory.id}`);
-    }
-
-    if (result.updatedCategory) {
-      router.refresh();
-    }
+    router.refresh();
   };
 
   return (
     <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold">Име</div>
-        <div className="text-muted-foreground">{displayName}</div>
+        <div className="font-semibold">URL адрес</div>
+        <div className="text-muted-foreground">{displaySlug}</div>
       </div>
       {isOpen ? (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="name"
+              name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Име на категорията</FormLabel>
+                  <FormLabel>URL адрес</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Напишете име на категорията"
+                      placeholder="Напишете URL адрес на категорията"
                       {...field}
                       disabled={form.formState.isSubmitting}
                       autoFocus

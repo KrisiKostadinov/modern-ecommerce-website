@@ -1,15 +1,17 @@
-import { Image, LayoutList } from "lucide-react";
+import { ImageIcon, LayoutList } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+
+import { prisma } from "@/db/prisma";
+import { Category } from "@prisma/client";
 
 import PageWrapper from "@/app/dashboard/_components/page-wrapper";
 import ClientPage from "@/app/dashboard/categories/_components/client-page";
 import CustomAlert from "@/app/dashboard/_components/custom-alert";
-import { prisma } from "@/db/prisma";
-import { Category } from "@prisma/client";
 
 export default async function Categories() {
   const categories = await prisma.category.findMany();
-  
+
   return (
     <PageWrapper>
       <ClientPage />
@@ -34,7 +36,18 @@ const SingleCategory = ({ category }: { category: Category }) => {
     <Link href={`/dashboard/categories/${category.id}`}>
       <div className="bg-white border rounded shadow py-2 px-4">
         <div className="flex items-center gap-5">
-          <Image className="w-10 h-10 text-muted-foreground" />
+          {category.imageUrl ? (
+            <Image
+              className="w-10 h-10"
+              src={`/${category.imageUrl}`}
+              alt="Category Image"
+              width={60}
+              height={60}
+              priority
+            />
+          ) : (
+            <ImageIcon className="w-10 h-10 text-muted-foreground" />
+          )}
           <div>
             <div className="font-semibold">{category.name}</div>
             <div className="text-muted-foreground">{category.description}</div>
@@ -43,4 +56,4 @@ const SingleCategory = ({ category }: { category: Category }) => {
       </div>
     </Link>
   );
-}
+};

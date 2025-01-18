@@ -2,9 +2,12 @@ import { redirect } from "next/navigation";
 
 import { prisma } from "@/db/prisma";
 import { Category } from "@prisma/client";
+
 import PageWrapper from "@/app/dashboard/_components/page-wrapper";
 import ClientPage from "@/app/dashboard/categories/[slug]/_components/client-page";
+
 import UpdateName from "@/app/dashboard/categories/[slug]/_components/update-name";
+import UpdateSlug from "@/app/dashboard/categories/[slug]/_components/update-slug";
 
 export default async function UpdateCategory({
   params,
@@ -33,6 +36,7 @@ export default async function UpdateCategory({
       <ClientPage heading={heading} categoryId={category?.id} />
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
         <UpdateName id={mapedId} name={mapedName} />
+        {category && <UpdateSlug id={mapedId} slug={category.slug} />}
       </div>
     </PageWrapper>
   );
