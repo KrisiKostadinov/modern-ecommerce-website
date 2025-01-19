@@ -8,11 +8,11 @@ type DisplayCategoriesProps = {
   categories: Category[];
 };
 
-export default function DisplayCategoriesProps({
+export default function DisplayCategories({
   categories,
 }: DisplayCategoriesProps) {
   return (
-    <div className="container mx-auto my-10 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <div className="container mx-auto my-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-sm:px-5">
       {categories.map((category, index) => (
         <div key={index} className="bg-white py-3 px-4 border rounded shadow">
           <Link href={`${category.slug}`} className="space-y-2 cursor-pointer">
