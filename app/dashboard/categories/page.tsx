@@ -10,7 +10,7 @@ import ClientPage from "@/app/dashboard/categories/_components/client-page";
 import CustomAlert from "@/app/dashboard/_components/custom-alert";
 
 export default async function Categories() {
-  const categories = await prisma.category.findMany();
+  const categories = await prisma.category.findMany({ orderBy: { createdAt: "desc" } });
 
   return (
     <PageWrapper>

@@ -96,6 +96,7 @@ model Category {
   metaTitle       String?         @map("meta_title")
   metaDescription String?         @map("meta_description")
   metaKeywords    String?         @map("meta_keywords")
+  createdAt       DateTime        @default(now()) @map("created_at")
 }
 
 enum CategoryPlace {

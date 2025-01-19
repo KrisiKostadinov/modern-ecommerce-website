@@ -47,9 +47,8 @@ export default function UpdateDescription({
     },
   });
 
-  const formattedDescription = description
-    ? description.replace(/\n/g, "<br>")
-    : "Няма";
+  const formattedDescription =
+    description && description.replace(/\n/g, "<br>");
   const displayButtonText = !id ? "Добавяне" : "Редактиране";
   const displayFormButtonText = !id ? "Добавяне" : "Запазване";
 
@@ -72,16 +71,20 @@ export default function UpdateDescription({
   return (
     <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold mb-5">Описание</div>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: formattedDescription,
-          }}
-          className={cn(
-            "text-muted-foreground",
-            isDescriptionShow ? "" : "line-clamp-2"
-          )}
-        />
+        <div className="font-semibold">Описание</div>
+        {formattedDescription ? (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: formattedDescription,
+            }}
+            className={cn(
+              "text-muted-foreground mt-5",
+              isDescriptionShow ? "" : "line-clamp-2"
+            )}
+          />
+        ) : (
+          <div className="text-muted-foreground">Няма описание</div>
+        )}
       </div>
       {isOpen ? (
         <Form {...form}>
@@ -128,13 +131,15 @@ export default function UpdateDescription({
             <PenIcon />
             {displayButtonText}
           </Button>
-          <Button
-            variant={"outline"}
-            onClick={() => setIsDescriptionShow(!isDescriptionShow)}
-          >
-            {!isDescriptionShow ? <EyeIcon /> : <EyeOffIcon />}
-            {isDescriptionShow ? "Скраване" : "Показване"}
-          </Button>
+          {formattedDescription && (
+            <Button
+              variant={"outline"}
+              onClick={() => setIsDescriptionShow(!isDescriptionShow)}
+            >
+              {!isDescriptionShow ? <EyeIcon /> : <EyeOffIcon />}
+              {isDescriptionShow ? "Скраване" : "Показване"}
+            </Button>
+          )}
         </div>
       )}
     </div>
