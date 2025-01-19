@@ -6,8 +6,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import { PenIcon, SaveIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, PenIcon, SaveIcon } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -31,8 +32,12 @@ const formSchema = z.object({
 
 export type FormSchemaProps = z.infer<typeof formSchema>;
 
-export default function UpdateDescription({ id, description }: UpdateDescriptionProps) {
+export default function UpdateDescription({
+  id,
+  description,
+}: UpdateDescriptionProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDescriptionShow, setIsDescriptionShow] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<FormSchemaProps>({
@@ -42,7 +47,9 @@ export default function UpdateDescription({ id, description }: UpdateDescription
     },
   });
 
-  const displaySlug = description ? description : "Няма";
+  const formattedDescription = description
+    ? description.replace(/\n/g, "<br>")
+    : "Няма";
   const displayButtonText = !id ? "Добавяне" : "Редактиране";
   const displayFormButtonText = !id ? "Добавяне" : "Запазване";
 
@@ -65,8 +72,16 @@ export default function UpdateDescription({ id, description }: UpdateDescription
   return (
     <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold">Описание</div>
-        <div className="text-muted-foreground">{displaySlug}</div>
+        <div className="font-semibold mb-5">Описание</div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: formattedDescription,
+          }}
+          className={cn(
+            "text-muted-foreground",
+            isDescriptionShow ? "" : "line-clamp-2"
+          )}
+        />
       </div>
       {isOpen ? (
         <Form {...form}>
@@ -108,10 +123,19 @@ export default function UpdateDescription({ id, description }: UpdateDescription
           </form>
         </Form>
       ) : (
-        <Button onClick={() => setIsOpen(true)}>
-          <PenIcon />
-          {displayButtonText}
-        </Button>
+        <div className="flex gap-5">
+          <Button onClick={() => setIsOpen(true)}>
+            <PenIcon />
+            {displayButtonText}
+          </Button>
+          <Button
+            variant={"outline"}
+            onClick={() => setIsDescriptionShow(!isDescriptionShow)}
+          >
+            {!isDescriptionShow ? <EyeIcon /> : <EyeOffIcon />}
+            {isDescriptionShow ? "Скраване" : "Показване"}
+          </Button>
+        </div>
       )}
     </div>
   );

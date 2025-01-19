@@ -18,6 +18,10 @@ export default function ClientPage({ heading, categoryId }: ClientPageProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const deleteCallback = async () => {
+    if (!confirm("Сигурни ли сте, че искате да изтриете тази категория? Тази операция е необратима.")) {
+      return;
+    }
+    
     setIsLoading(true);
 
     const result = await deleteAction(categoryId);

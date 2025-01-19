@@ -1,11 +1,16 @@
 "use client";
 
 import { PlusIcon } from "lucide-react";
-
-import PageHeader from "@/app/dashboard/_components/page-header";
 import { useRouter } from "next/navigation";
 
-export default function ClientPage() {
+import PageHeader from "@/app/dashboard/_components/page-header";
+
+type ClientPageProps = {
+  categoriesLength: number;
+}
+
+export default function ClientPage({ categoriesLength }: ClientPageProps) {
+  
   const router = useRouter();
 
   const callback = () => {
@@ -15,7 +20,7 @@ export default function ClientPage() {
   return (
     <>
       <PageHeader
-        heading={"Категории"}
+        heading={`Категории (${categoriesLength})`}
         button={{ text: "Добавяне", icon: <PlusIcon />, callback }}
       />
     </>

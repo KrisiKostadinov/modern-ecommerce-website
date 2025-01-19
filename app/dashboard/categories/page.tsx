@@ -14,7 +14,7 @@ export default async function Categories() {
 
   return (
     <PageWrapper>
-      <ClientPage />
+      <ClientPage categoriesLength={categories.length} />
       {categories.length === 0 && (
         <CustomAlert
           title="Категории"
@@ -38,11 +38,11 @@ const SingleCategory = ({ category }: { category: Category }) => {
         <div className="flex items-center gap-5">
           {category.imageUrl ? (
             <Image
-              className="w-10 h-10"
-              src={`/${category.imageUrl}`}
+              className="w-20 h-20 object-cover border rounded"
+              src={category.imageUrl}
               alt="Category Image"
-              width={60}
-              height={60}
+              width={300}
+              height={300}
               priority
             />
           ) : (
@@ -50,7 +50,7 @@ const SingleCategory = ({ category }: { category: Category }) => {
           )}
           <div>
             <div className="font-semibold">{category.name}</div>
-            <div className="text-muted-foreground">{category.description}</div>
+            <div className="text-muted-foreground line-clamp-2">{category.description || "Няма описание"}</div>
           </div>
         </div>
       </div>

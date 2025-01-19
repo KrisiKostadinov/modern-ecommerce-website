@@ -45,7 +45,7 @@ export default async function UpdateCategory({
         {category && <UpdateDescription id={mapedId} description={category.description} />}
       </div>
 
-      <div className="mt-5">
+      <div className="my-5">
         {category && <UploadImage id={category.id} imageUrl={category.imageUrl} />}
       </div>
     </PageWrapper>
