@@ -87,11 +87,21 @@ model Authenticator {
 }
 
 model Category {
-  id          String  @id @default(uuid()) @map("_id")
-  name        String  @unique
-  slug        String  @unique
-  description String?
-  imageUrl    String? @map("image_url")
+  id              String          @id @default(uuid()) @map("_id")
+  name            String          @unique
+  slug            String          @unique
+  description     String?
+  imageUrl        String?         @map("image_url")
+  places          CategoryPlace[] @default([CATEGORIES_PAGE])
+  metaTitle       String?         @map("meta_title")
+  metaDescription String?         @map("meta_description")
+  metaKeywords    String?         @map("meta_keywords")
+}
+
+enum CategoryPlace {
+  HOME_PAGE
+  CATEGORIES_PAGE
+  NAVBAR
 }
 
 model Image {
