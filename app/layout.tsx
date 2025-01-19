@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
 import { ToastContainer } from "react-toastify";
+import { prisma } from "@/db/prisma";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,13 +17,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+
+  const categories = await prisma.category.findMany({
+    where: { places: { has: "NAVBAR" } }
+  });
   
   return (
     <html lang="bg">
       <body className="bg-slate-100">
         <SessionProvider>
           <ToastContainer />
-          <Navbar session={session} />
+          <Navbar session={session} categories={categories} />
           {children}
         </SessionProvider>
       </body>

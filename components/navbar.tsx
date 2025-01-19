@@ -13,13 +13,16 @@ import {
   SheetDescription,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { Category } from "@prisma/client";
 
 type NavbarProps = {
   session: Session | null;
+  categories: Category[];
 }
 
-export default function Navbar({ session }: NavbarProps) {
+export default function Navbar({ session, categories }: NavbarProps) {
   const pathname = usePathname();
   
   const [isOpen, setIsOpen] = useState(false);
@@ -44,39 +47,18 @@ export default function Navbar({ session }: NavbarProps) {
           <SheetHeader>
             <SheetTitle className="px-5 pt-5 text-left">Навигация</SheetTitle>
             <SheetDescription asChild>
-              <div className="grid gap-2 py-6">
-                <Link
-                  href="/"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Начало
-                </Link>
-                <Link
-                  href="/products"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Продукти
-                </Link>
-                <Link
-                  href="/categories"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Категории
-                </Link>
-                <Link
-                  href="/contact-us"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Контакти
-                </Link>
+              <nav className="grid gap-2 py-6">
+                {categories.map((category, index) => (
+                  <Link
+                    key={index}
+                    href={`/categories/${category.slug}`}
+                    className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                    prefetch={false}
+                  >
+                    {category.name}
+                  </Link>
+                ))}
+                <Separator />
                 {!session ? (
                   <Link
                     href="/login"
@@ -106,7 +88,7 @@ export default function Navbar({ session }: NavbarProps) {
                     </Link>
                   </>
                 )}
-              </div>
+              </nav>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
@@ -117,35 +99,20 @@ export default function Navbar({ session }: NavbarProps) {
         <span className="sr-only">Acme Inc</span>
       </Link>
 
+      <nav className="hidden lg:flex">
+        {categories.map((category, index) => (
+          <Link
+            key={index}
+            href={`/categories/${category.slug}`}
+            className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+            prefetch={false}
+          >
+            {category.name}
+          </Link>
+        ))}
+      </nav>
+
       <nav className="ml-auto hidden lg:flex">
-        <Link
-          href="#"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Начало
-        </Link>
-        <Link
-          href="/products"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Продукти
-        </Link>
-        <Link
-          href="/categories"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Категории
-        </Link>
-        <Link
-          href="/contact-us"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Контакти
-        </Link>
         {!session ? (
           <Link
             href="/login"
