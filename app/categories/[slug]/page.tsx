@@ -2,27 +2,22 @@ import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/db/prisma";
-import ClientPage from "./_components/client-page";
+import ClientPage from "@/app/categories/[slug]/_components/client-page";
 
-type CategoryProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata({ params }: CategoryProps) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const awaitedParams = await params;
-  const slug = awaitedParams.slug[0];
+  const slug = awaitedParams.slug;
 
   const category = await prisma.category.findUnique({
     where: { slug },
   });
 
   if (!category) {
-    return {
-      title: "Category not found",
-      description: "The category you are looking for does not exist.",
-    };
+    return null;
   }
 
   return {
@@ -36,9 +31,13 @@ export async function generateMetadata({ params }: CategoryProps) {
   } as Metadata;
 }
 
-export default async function CategoryPage({ params }: CategoryProps) {
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const awaitedParams = await params;
-  const slug = awaitedParams.slug[0];
+  const slug = awaitedParams.slug;
 
   const category = await prisma.category.findUnique({
     where: { slug },
