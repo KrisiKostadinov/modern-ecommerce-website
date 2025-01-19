@@ -19,9 +19,12 @@ export default async function RootLayout({
   const session = await auth();
 
   const categories = await prisma.category.findMany({
-    where: { places: { has: "NAVBAR" } }
+    where: { places: { has: "NAVBAR" } },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
-  
+
   return (
     <html lang="bg">
       <body className="bg-slate-100">
