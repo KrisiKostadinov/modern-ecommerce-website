@@ -15,7 +15,7 @@ export default function DisplayCategories({
     <div className="container mx-auto my-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 max-sm:px-5">
       {categories.map((category, index) => (
         <div key={index} className="bg-white py-3 px-4 border rounded shadow">
-          <Link href={`${category.slug}`} className="space-y-2 cursor-pointer">
+          <Link href={`/categories/${category.slug}`} className="space-y-2 cursor-pointer">
             <h2 className="text-xl font-semibold">{category.name}</h2>
             {category.imageUrl && (
               <Image

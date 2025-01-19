@@ -54,6 +54,7 @@ export default function Navbar({ session, categories }: NavbarProps) {
                     href={`/categories/${category.slug}`}
                     className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
                     prefetch={false}
+                    onClick={() => setIsOpen(false)}
                   >
                     {category.name}
                   </Link>

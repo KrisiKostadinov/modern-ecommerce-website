@@ -8,12 +8,15 @@ export default async function Categories() {
         has: "CATEGORIES_PAGE",
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return (
     <div className="container mx-auto">
-        <h1 className="mt-5 text-2xl text-center font-semibold">Категории</h1>
-        <DisplayCategories categories={categories} />
+      <h1 className="mt-5 text-2xl text-center font-semibold">Категории</h1>
+      <DisplayCategories categories={categories} />
     </div>
   );
 }
