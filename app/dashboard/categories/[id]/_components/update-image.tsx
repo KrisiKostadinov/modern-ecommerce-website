@@ -2,7 +2,7 @@
 
 import { toast } from "react-toastify";
 import Image from "next/image";
-import { ImageIcon } from "lucide-react";
+import { ImageIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -15,7 +15,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import uploadImage from "@/app/dashboard/categories/[slug]/_actions/update-image";
+import {
+  uploadImage,
+  deleteImageByCategoryId,
+} from "@/app/dashboard/categories/[id]/_actions/update-image";
 import { Button } from "@/components/ui/button";
 
 type UpdateImageProps = {
@@ -26,6 +29,26 @@ type UpdateImageProps = {
 export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const onRemove = async () => {
+    if (!imageUrl) {
+      return toast.error("Този продукт няма предна снимка");
+    }
+
+    setIsLoading(true);
+
+    const result = await deleteImageByCategoryId(id);
+
+    if (result.error) {
+      setIsLoading(false);
+      return toast.error(result.error);
+    }
+
+    router.refresh();
+    toast.success(result.message);
+    setIsLoading(false);
+  };
 
   return (
     <div className="max-w-sm bg-white border rounded shadow p-5 space-y-4">
@@ -46,19 +69,30 @@ export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
             <Image
               src={imageUrl}
               alt={"Category Preview Image"}
-              width={400}
-              height={400}
+              width={300}
+              height={300}
               priority
-              className="w-full h-full"
+              className="w-full h-[300px]"
             />
-            <Button
-              variant={"outline"}
-              className="mt-5"
-              onClick={() => setIsOpen(true)}
-            >
-              <ImageIcon />
-              Промяна
-            </Button>
+            <div className="flex gap-5">
+              <Button
+                variant={"outline"}
+                className="mt-5"
+                onClick={() => setIsOpen(true)}
+              >
+                <ImageIcon />
+                Промяна
+              </Button>
+              <Button
+                variant={"destructive"}
+                className="mt-5"
+                onClick={onRemove}
+                disabled={isLoading}
+              >
+                <TrashIcon />
+                Премахване
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -71,8 +105,14 @@ export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
                 <UploadDropzone
                   endpoint="imageUploader"
                   onClientUploadComplete={async (res) => {
-                    const imageUrl = res[0].url;
-                    const result = await uploadImage(id, imageUrl);
+                    const imageResponse = res[0];
+
+                    const result = await uploadImage(id, {
+                      key: imageResponse.key,
+                      size: imageResponse.size,
+                      type: imageResponse.type,
+                      url: imageResponse.url,
+                    });
 
                     if (result.error) {
                       toast.error(result.error);

@@ -1,6 +1,6 @@
 "use server";
 
-import { FormSchemaProps } from "@/app/dashboard/categories/[slug]/_components/update-name";
+import { FormSchemaProps } from "@/app/dashboard/categories/[id]/_components/update-name";
 import { prisma } from "@/db/prisma";
 import { createSlug } from "@/lib/utils";
 

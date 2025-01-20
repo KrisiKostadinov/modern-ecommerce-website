@@ -4,27 +4,27 @@ import { prisma } from "@/db/prisma";
 import { Category } from "@prisma/client";
 
 import PageWrapper from "@/app/dashboard/_components/page-wrapper";
-import ClientPage from "@/app/dashboard/categories/[slug]/_components/client-page";
+import ClientPage from "@/app/dashboard/categories/[id]/_components/client-page";
 
-import UpdateName from "@/app/dashboard/categories/[slug]/_components/update-name";
-import UpdateSlug from "@/app/dashboard/categories/[slug]/_components/update-slug";
-import UpdateDescription from "@/app/dashboard/categories/[slug]/_components/update-description";
-import UploadImage from "@/app/dashboard/categories/[slug]/_components/update-image";
-import UpdatePlaces from "@/app/dashboard/categories/[slug]/_components/update-places";
+import UpdateName from "@/app/dashboard/categories/[id]/_components/update-name";
+import UpdateSlug from "@/app/dashboard/categories/[id]/_components/update-slug";
+import UpdateDescription from "@/app/dashboard/categories/[id]/_components/update-description";
+import UploadImage from "@/app/dashboard/categories/[id]/_components/update-image";
+import UpdatePlaces from "@/app/dashboard/categories/[id]/_components/update-places";
 
 export default async function UpdateCategory({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ id: string }>;
 }) {
   const awaitedParams = await params;
   let category: Category | null = null;
 
-  const isNew = awaitedParams.slug === "create";
+  const isNew = awaitedParams.id === "create";
   const heading = isNew ? "Добавяне" : "Редактиране";
 
-  category = await prisma.category.findUnique({
-    where: { id: awaitedParams.slug },
+  category = await prisma.category.findFirst({
+    where: { id: awaitedParams.id }
   });
 
   if (!category && !isNew) {

@@ -87,7 +87,7 @@ model Authenticator {
 }
 
 model Category {
-  id              String          @id @default(uuid()) @map("_id") @db.ObjectId
+  id              String          @id @default(uuid()) @map("_id")
   name            String          @unique
   slug            String          @unique
   description     String?
@@ -128,7 +128,7 @@ model Product {
   quantity       Int           @default(1)
   description    String?
   category       Category?     @relation(fields: [categoryId], references: [id])
-  categoryId     String?       @db.ObjectId
+  categoryId     String?
   thumbnailImage String?       @map("thumbnail_image")
   images         String[]      @default([])
   seo            Json?

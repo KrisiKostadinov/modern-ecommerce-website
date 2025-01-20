@@ -1,8 +1,12 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
+import { FormSchemaProps } from "@/app/dashboard/categories/[id]/_components/update-description";
 
-export default async function uploadImage(id: string, imageUrl: string) {
+export default async function updateSlugAction(
+  id: string,
+  values: FormSchemaProps
+) {
   const foundedByIdCategory = await prisma.category.findUnique({
     where: { id },
   });
@@ -14,9 +18,9 @@ export default async function uploadImage(id: string, imageUrl: string) {
   const updatedCategory = await prisma.category.update({
     where: { id },
     data: {
-      imageUrl,
+      description: values.description,
     },
   });
 
-  return { updatedCategory, message: "Снимката беше запазена успешно" };
+  return { updatedCategory, message: "Категорията беше създадена редактирана" };
 }

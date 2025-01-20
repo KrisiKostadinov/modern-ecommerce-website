@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import updateNameAction from "@/app/dashboard/categories/[slug]/_actions/update-name";
+import updateNameAction from "@/app/dashboard/categories/[id]/_actions/update-name";
 
 type UpdateNameProps = {
   id: string | null;

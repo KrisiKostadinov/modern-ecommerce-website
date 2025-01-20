@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import updateDescriptionAction from "@/app/dashboard/categories/[slug]/_actions/update-description";
+import updateDescriptionAction from "@/app/dashboard/categories/[id]/_actions/update-description";
 
 type UpdateDescriptionProps = {
   id: string | null;

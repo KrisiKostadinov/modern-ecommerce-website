@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { SaveIcon } from "lucide-react";
 
 import { CategoryPlace } from "@prisma/client";
-import updatePlaceAction from "@/app/dashboard/categories/[slug]/_actions/update-places";
+import updatePlaceAction from "@/app/dashboard/categories/[id]/_actions/update-places";
 import { Button } from "@/components/ui/button";
 
 const allPlaces: CategoryPlace[] = ["HOME_PAGE", "CATEGORIES_PAGE", "NAVBAR"];

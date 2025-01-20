@@ -4,7 +4,7 @@ import { Trash2Icon } from "lucide-react";
 import { toast } from "react-toastify";
 
 import PageHeader from "@/app/dashboard/_components/page-header";
-import deleteAction from "@/app/dashboard/categories/[slug]/_actions/delete-action";
+import deleteAction from "@/app/dashboard/categories/[id]/_actions/delete-action";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
