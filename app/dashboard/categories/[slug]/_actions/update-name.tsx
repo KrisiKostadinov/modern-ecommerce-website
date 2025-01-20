@@ -10,7 +10,7 @@ export default async function updateNameAction(
 ) {
   const slug = createSlug(values.name);
   
-  const category = await prisma.category.findUnique({
+  const category = await prisma.product.findUnique({
     where: { slug },
   });
 
@@ -19,15 +19,15 @@ export default async function updateNameAction(
   }
 
   if (id) {
-    const category = await prisma.category.findUnique({
+    const product = await prisma.product.findUnique({
       where: { id },
     });
 
-    if (!category) {
+    if (!product) {
       return { error: "Тази категория не е намерена" };
     }
 
-    const updatedCategory = await prisma.category.update({
+    const updatedCategory = await prisma.product.update({
       where: { id },
       data: { name: values.name, slug },
     });

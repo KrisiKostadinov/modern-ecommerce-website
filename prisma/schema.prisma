@@ -87,7 +87,7 @@ model Authenticator {
 }
 
 model Category {
-  id              String          @id @default(uuid()) @map("_id")
+  id              String          @id @default(uuid()) @map("_id") @db.ObjectId
   name            String          @unique
   slug            String          @unique
   description     String?
@@ -97,6 +97,7 @@ model Category {
   metaDescription String?         @map("meta_description")
   metaKeywords    String?         @map("meta_keywords")
   createdAt       DateTime        @default(now()) @map("created_at")
+  Product         Product[]
 }
 
 enum CategoryPlace {
@@ -114,4 +115,31 @@ model Image {
   title  String?
   size   Int?
   type   String?
+}
+
+model Product {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  name           String        @unique
+  slug           String        @unique
+  originalPrice  Float?        @map("original_price")
+  sellingPrice   Float?        @map("selling_price")
+  deliveryPrice  Float?        @map("delivery_price")
+  finalPrice     Float?        @map("final_price")
+  isPromo        Boolean       @default(false)
+  quantity       Int           @default(1)
+  description    String?
+  category       Category?     @relation(fields: [categoryId], references: [id])
+  categoryId     String?       @db.ObjectId
+  thumbnailImage String?       @map("thumbnail_image")
+  images         String[]      @default([])
+  seo            Json?
+  status         ProductStatus @default(ACTIVE)
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+}
+
+enum ProductStatus {
+  ACTIVE
+  INACTIVE
+  DRAFT
 }
