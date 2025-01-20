@@ -15,27 +15,30 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { uploadImage, deleteImageByProductId } from "@/app/dashboard/products/[slug]/_actions/update-image";
+import {
+  uploadImages,
+  deleteImagesByProductId,
+} from "@/app/dashboard/products/[slug]/_actions/update-images";
 import { Button } from "@/components/ui/button";
 
-type UpdateImageProps = {
+type UpdateImagesProps = {
   id: string;
-  imageUrl: string | null;
+  imageUrls: string[];
 };
 
-export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
+export default function UploadImages({ id, imageUrls }: UpdateImagesProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onRemove = async () => {
-    if (!imageUrl) {
+    if (imageUrls.length === 0) {
       return toast.error("Този продукт няма предна снимка");
     }
 
     setIsLoading(true);
 
-    const result = await deleteImageByProductId(id);
+    const result = await deleteImagesByProductId(id);
 
     if (result.error) {
       setIsLoading(false);
@@ -45,38 +48,42 @@ export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
     router.refresh();
     toast.success(result.message);
     setIsLoading(false);
-  }
+  };
 
   return (
-    <div className="max-w-sm bg-white border rounded shadow p-5 space-y-4">
+    <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold">Предна снимка</div>
-        {!imageUrl ? (
-          <div className="w-auto h-[300px] border-2 border-dashed border-gray-200 rounded mt-5">
+        <div className="font-semibold">Допълнителни снимки</div>
+        {imageUrls.length === 0 ? (
+          <div className="w-auto h-[200px] border-2 border-dashed border-gray-200 rounded mt-5 py-10">
             <div
               className="w-full h-full flex flex-col justify-center items-center"
               onClick={() => setIsOpen(true)}
             >
               <ImageIcon className="w-40 h-40 text-muted-foreground" />
-              <Button variant={"outline"}>Качване на снимка</Button>
+              <Button variant={"outline"}>Качване на снимки</Button>
             </div>
           </div>
         ) : (
           <div className="mt-5">
-            <Image
-              src={imageUrl}
-              alt={"Product Preview Image"}
-              width={600}
-              height={600}
-              priority
-              className="w-full h-[300px] object-cover"
-            />
+            <div className="flex gap-5">
+              {imageUrls.map((imageUrl, index) => (
+                <Image
+                  src={imageUrl}
+                  alt={"Product Preview Image"}
+                  width={120}
+                  height={120}
+                  priority
+                  className="w-[100px] h-[100px] object-cover"
+                  key={index}
+                />
+              ))}
+            </div>
             <div className="flex gap-5">
               <Button
                 variant={"outline"}
                 className="mt-5"
                 onClick={() => setIsOpen(true)}
-                disabled={isLoading}
               >
                 <ImageIcon />
                 Промяна
@@ -97,20 +104,19 @@ export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
       <Dialog open={isOpen} onOpenChange={() => setIsOpen(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Снимка на продукта</DialogTitle>
+            <DialogTitle>Допълнителни снимки на продукта</DialogTitle>
             <DialogDescription asChild>
               <div>
                 <UploadDropzone
                   endpoint="imageUploader"
                   onClientUploadComplete={async (res) => {
-                    const imageResponse = res[0];
-
-                    const result = await uploadImage(id, {
-                      key: imageResponse.key,
-                      size: imageResponse.size,
-                      type: imageResponse.type,
-                      url: imageResponse.url,
-                    });
+                    const imagesResponse = res.map((x) => ({
+                      key: x.key,
+                      size: x.size,
+                      type: x.type,
+                      url: x.url,
+                    }));
+                    const result = await uploadImages(id, imagesResponse);
 
                     if (result.error) {
                       toast.error(result.error);

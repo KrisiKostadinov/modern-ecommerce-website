@@ -107,14 +107,13 @@ enum CategoryPlace {
 }
 
 model Image {
-  id     String  @id @default(uuid()) @map("_id")
-  src    String
-  width  Int?
-  height Int?
-  alt    String?
-  title  String?
-  size   Int?
-  type   String?
+  id    String  @id @default(uuid()) @map("_id")
+  url   String
+  alt   String?
+  title String?
+  size  Int?
+  type  String?
+  key   String
 }
 
 model Product {

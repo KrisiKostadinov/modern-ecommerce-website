@@ -11,6 +11,7 @@ import UpdateName from "@/app/dashboard/products/[slug]/_components/update-name"
 import UpdateSlug from "@/app/dashboard/products/[slug]/_components/update-slug";
 import UpdateDescription from "@/app/dashboard/products/[slug]/_components/update-description";
 import UploadImage from "@/app/dashboard/products/[slug]/_components/update-image";
+import UploadImages from "@/app/dashboard/products/[slug]/_components/update-images";
 
 export const metadata: Metadata = {
   title: "Продукти",
@@ -58,6 +59,12 @@ export default async function UpdateProduct({
       <div className="my-5">
         {product && (
           <UploadImage id={product.id} imageUrl={product.thumbnailImage} />
+        )}
+      </div>
+
+      <div className="my-5">
+        {product && (
+          <UploadImages id={product.id} imageUrls={product.images} />
         )}
       </div>
     </PageWrapper>
