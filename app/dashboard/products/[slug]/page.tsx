@@ -17,6 +17,7 @@ import UploadImage from "@/app/dashboard/products/[slug]/_components/update-imag
 import UploadImages from "@/app/dashboard/products/[slug]/_components/update-images";
 import UpdateMetaDescription from "@/app/dashboard/products/[slug]/_components/update-meta-description";
 import UpdateMetaKeywords from "@/app/dashboard/products/[slug]/_components/update-meta-keywords";
+import UpdateCategories from "./_components/update-categories";
 
 export const metadata: Metadata = {
   title: "Продукти",
@@ -46,6 +47,15 @@ export default async function UpdateProduct({
   const mapedId = product?.id || null;
   const mapedName = product?.name || null;
 
+  const productCategories = await prisma.category.findMany({
+    where: {
+      id: {
+        in: product?.categoryIds,
+      },
+    },
+  });
+  const categories = await prisma.category.findMany();
+
   return (
     <PageWrapper>
       <ClientPage heading={heading} prodcutId={product?.id} />
@@ -72,6 +82,16 @@ export default async function UpdateProduct({
           <UpdateSellingPrice
             productId={product.id}
             sellingPrice={product.sellingPrice}
+          />
+        )}
+      </div>
+
+      <div className="mb-5">
+        {product && (
+          <UpdateCategories
+            productId={product.id}
+            productCategories={productCategories}
+            categories={categories}
           />
         )}
       </div>

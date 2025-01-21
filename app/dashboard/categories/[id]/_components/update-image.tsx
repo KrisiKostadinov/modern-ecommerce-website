@@ -69,10 +69,10 @@ export default function UploadImage({ id, imageUrl }: UpdateImageProps) {
             <Image
               src={imageUrl}
               alt={"Category Preview Image"}
-              width={300}
-              height={300}
+              width={400}
+              height={400}
               priority
-              className="w-full h-[300px]"
+              className="w-auto h-[300px] object-cover"
             />
             <div className="flex gap-5">
               <Button

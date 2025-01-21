@@ -66,18 +66,22 @@ export default function UploadImages({ id, imageUrls }: UpdateImagesProps) {
           </div>
         ) : (
           <div className="mt-5">
-            <div className="flex gap-5">
-              {imageUrls.map((imageUrl, index) => (
-                <Image
-                  src={imageUrl}
-                  alt={"Product Preview Image"}
-                  width={400}
-                  height={400}
-                  priority
-                  className="max-w-[120px] max-h-[120px] w-full h-full overflow-hidden rounded border object-cover"
-                  key={index}
-                />
-              ))}
+            <div className="flex flex-wrap gap-5">
+              {imageUrls && imageUrls.length > 0 ? (
+                imageUrls.map((imageUrl, index) => (
+                  <Image
+                    src={imageUrl}
+                    alt={`Product Preview Image ${index + 1}`}
+                    width={400}
+                    height={400}
+                    priority
+                    className="w-30 h-30 sm:w-40 sm:h-40 md:w-48 md:h-48 overflow-hidden rounded border object-cover"
+                    key={index}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500">No images available</p>
+              )}
             </div>
             <div className="flex gap-5">
               <Button
