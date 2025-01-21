@@ -71,10 +71,10 @@ export default function UploadImages({ id, imageUrls }: UpdateImagesProps) {
                 <Image
                   src={imageUrl}
                   alt={"Product Preview Image"}
-                  width={120}
-                  height={120}
+                  width={400}
+                  height={400}
                   priority
-                  className="w-[100px] h-[100px] object-cover"
+                  className="max-w-[120px] max-h-[120px] w-full h-full overflow-hidden rounded border object-cover"
                   key={index}
                 />
               ))}

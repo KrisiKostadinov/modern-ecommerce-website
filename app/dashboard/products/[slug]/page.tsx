@@ -12,8 +12,11 @@ import UpdateSlug from "@/app/dashboard/products/[slug]/_components/update-slug"
 import UpdateDescription from "@/app/dashboard/products/[slug]/_components/update-description";
 import UpdateOriginalPrice from "@/app/dashboard/products/[slug]/_components/update-original-price";
 import UpdateSellingPrice from "@/app/dashboard/products/[slug]/_components/update-selling-price";
+import UpdateMetaTitle from "@/app/dashboard/products/[slug]/_components/update-meta-title";
 import UploadImage from "@/app/dashboard/products/[slug]/_components/update-image";
 import UploadImages from "@/app/dashboard/products/[slug]/_components/update-images";
+import UpdateMetaDescription from "@/app/dashboard/products/[slug]/_components/update-meta-description";
+import UpdateMetaKeywords from "@/app/dashboard/products/[slug]/_components/update-meta-keywords";
 
 export const metadata: Metadata = {
   title: "Продукти",
@@ -63,9 +66,6 @@ export default async function UpdateProduct({
           <UpdateOriginalPrice
             productId={product.id}
             originalPrice={product.originalPrice}
-            sellingPrice={product.sellingPrice}
-            deliveryPrice={product.deliveryPrice}
-            finalPrice={product.finalPrice}
           />
         )}
         {product && (
@@ -84,6 +84,33 @@ export default async function UpdateProduct({
 
       <div className="my-5">
         {product && <UploadImages id={product.id} imageUrls={product.images} />}
+      </div>
+
+      <div className="my-5">
+        {product && (
+          <UpdateMetaTitle
+            productId={product.id}
+            metaTitle={product.metaTitle}
+          />
+        )}
+      </div>
+
+      <div className="my-5">
+        {product && (
+          <UpdateMetaDescription
+            productId={product.id}
+            metaDescription={product.metaDescription}
+          />
+        )}
+      </div>
+
+      <div className="my-5">
+        {product && (
+          <UpdateMetaKeywords
+            productId={product.id}
+            metaKeywords={product.metaKeywords}
+          />
+        )}
       </div>
     </PageWrapper>
   );

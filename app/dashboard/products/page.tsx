@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Products() {
-  const products = await prisma.product.findMany();
+  const products = await prisma.product.findMany({ orderBy: { createdAt: "desc" } });
 
   return (
     <PageWrapper>
@@ -41,16 +41,17 @@ const SingleProduct = ({ product }: { product: Product }) => {
       <div className="bg-white border rounded shadow py-2 px-4">
         <div className="flex items-center gap-5">
           {product.thumbnailImage ? (
-            <Image
-              className="w-20 h-20 object-cover border rounded"
-              src={product.thumbnailImage}
-              alt="Product Image"
-              width={300}
-              height={300}
-              priority
-            />
+            
+              <Image
+                className="max-w-[120px] max-h-[120px] w-full h-full overflow-hidden rounded border object-cover"
+                src={product.thumbnailImage}
+                alt="Product Image"
+                width={400}
+                height={400}
+                priority
+              />
           ) : (
-            <ImageIcon className="w-10 h-10 text-muted-foreground" />
+            <ImageIcon className="max-w-[120px] max-h-[120px] w-full h-full overflow-hidden rounded border text-muted-foreground" />
           )}
           <div>
             <div className="font-semibold">{product.name}</div>

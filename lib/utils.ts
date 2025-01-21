@@ -33,3 +33,8 @@ export function createSlug(input: string): string {
       .trim()
       .replace(/\s+/g, '-');
 }
+
+export function replaceNewlinesWithComma(text: string) {
+  const updatedText = text.replace(/\n/g, ", ");
+  return updatedText;
+}

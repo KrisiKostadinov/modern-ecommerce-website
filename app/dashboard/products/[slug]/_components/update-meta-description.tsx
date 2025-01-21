@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
 import { PenIcon, SaveIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -16,42 +18,34 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/utils";
-import { updateOriginalPrice } from "@/app/dashboard/products/[slug]/_actions/update-price";
+import updateMetaDescription from "@/app/dashboard/products/[slug]/_actions/update-meta-description";
 
-type UpdateOriginalPrice = {
+type UpdateNameProps = {
   productId: string;
-  originalPrice: number | null;
+  metaDescription: string | null;
 };
 
 const formSchema = z.object({
-  originalPrice: z.coerce.number().nullable(),
+  metaDescription: z.string().nullable(),
 });
 
 export type FormSchemaProps = z.infer<typeof formSchema>;
 
-export default function UpdateOriginalPrice({
-  productId,
-  originalPrice,
-}: UpdateOriginalPrice) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+export default function UpdateMetaDescription({ productId, metaDescription }: UpdateNameProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(!!!productId);
   const router = useRouter();
 
   const form = useForm<FormSchemaProps>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      originalPrice: originalPrice || null,
+      metaDescription,
     },
   });
 
-  const onSubmit = async (values: FormSchemaProps) => {
-    if (!productId) {
-      return toast.error("Този продукт не е намерен");
-    }
+  const displayMetaDescription = metaDescription || "Няма";
 
-    const result = await updateOriginalPrice(productId, values.originalPrice);
+  const onSubmit = async (values: FormSchemaProps) => {
+    const result = await updateMetaDescription(productId, values.metaDescription);
 
     if (result.error) {
       return toast.error(result.error);
@@ -59,31 +53,30 @@ export default function UpdateOriginalPrice({
 
     setIsOpen(false);
     toast.success(result.message);
-    router.refresh();
+
+    if (result.updatedProduct) {
+      router.refresh();
+    }
   };
 
-  const displayOriginalPrice = originalPrice ? formatPrice(originalPrice) : "Няма";
-  const displayButtonText = !productId ? "Добавяне" : "Редактиране";
-  const displayFormButtonText = !productId ? "Добавяне" : form.formState.isSubmitting ? "Зареждане..." : "Запазване";
-
   return (
-    <div className="bg-white border rounded shadow p-5 space-y-4 h-fit">
+    <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold">Оригинална цена</div>
-        <div className="text-muted-foreground">{displayOriginalPrice}</div>
+        <div className="font-semibold">Мета описание на продукта</div>
+        <div className="text-muted-foreground">{displayMetaDescription}</div>
       </div>
       {isOpen ? (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="originalPrice"
+              name="metaDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Оригинална цена на продукта</FormLabel>
+                  <FormLabel>Мета описание на продукта</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Напишете оригинална цена на продукта"
+                      placeholder="Напишете мета описание на продукта"
                       {...field}
                       value={field.value ?? ""}
                       disabled={form.formState.isSubmitting}
@@ -97,7 +90,7 @@ export default function UpdateOriginalPrice({
             <div className="flex gap-5">
               <Button type="submit" disabled={form.formState.isSubmitting}>
                 <SaveIcon />
-                {displayFormButtonText}
+                <span>Запазване</span>
               </Button>
               <Button
                 variant={"outline"}
@@ -112,7 +105,7 @@ export default function UpdateOriginalPrice({
       ) : (
         <Button onClick={() => setIsOpen(true)}>
           <PenIcon />
-          {displayButtonText}
+          <span>Промяна</span>
         </Button>
       )}
     </div>
