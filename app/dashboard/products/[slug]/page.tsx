@@ -10,6 +10,8 @@ import ClientPage from "@/app/dashboard/products/[slug]/_components/client-page"
 import UpdateName from "@/app/dashboard/products/[slug]/_components/update-name";
 import UpdateSlug from "@/app/dashboard/products/[slug]/_components/update-slug";
 import UpdateDescription from "@/app/dashboard/products/[slug]/_components/update-description";
+import UpdateOriginalPrice from "@/app/dashboard/products/[slug]/_components/update-original-price";
+import UpdateSellingPrice from "@/app/dashboard/products/[slug]/_components/update-selling-price";
 import UploadImage from "@/app/dashboard/products/[slug]/_components/update-image";
 import UploadImages from "@/app/dashboard/products/[slug]/_components/update-images";
 
@@ -56,16 +58,32 @@ export default async function UpdateProduct({
         )}
       </div>
 
-      <div className="my-5">
+      <div className="grid md:grid-cols-2 gap-5 my-5">
+        {product && (
+          <UpdateOriginalPrice
+            productId={product.id}
+            originalPrice={product.originalPrice}
+            sellingPrice={product.sellingPrice}
+            deliveryPrice={product.deliveryPrice}
+            finalPrice={product.finalPrice}
+          />
+        )}
+        {product && (
+          <UpdateSellingPrice
+            productId={product.id}
+            sellingPrice={product.sellingPrice}
+          />
+        )}
+      </div>
+
+      <div className="mb-5">
         {product && (
           <UploadImage id={product.id} imageUrl={product.thumbnailImage} />
         )}
       </div>
 
       <div className="my-5">
-        {product && (
-          <UploadImages id={product.id} imageUrls={product.images} />
-        )}
+        {product && <UploadImages id={product.id} imageUrls={product.images} />}
       </div>
     </PageWrapper>
   );

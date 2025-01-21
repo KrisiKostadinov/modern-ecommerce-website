@@ -5,6 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function formatPrice(price: number) {
+  return new Intl.NumberFormat("bg-BG", {
+    style: "currency",
+    currency: "BGN",
+  }).format(price);
+};
+
 export function createSlug(input: string): string {
   const transliterationMap: { [key: string]: string } = {
       'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ж': 'zh',
