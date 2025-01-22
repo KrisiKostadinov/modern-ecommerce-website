@@ -21,11 +21,11 @@ export async function generateMetadata({
   }
 
   return {
-    title: category.name,
+    title: "Подадърци за " + category.name,
     description: category.metaDescription || "",
-    keywords: category.metaKeywords,
+    keywords: category.metaKeywords || "",
     openGraph: {
-      title: category.name,
+      title: "Подадърци за " + category.name,
       description: category.metaDescription || "",
     },
   } as Metadata;
@@ -47,9 +47,15 @@ export default async function CategoryPage({
     return redirect("/categories");
   }
 
+  const products = await prisma.product.findMany({
+    where: { categoryIds: { hasSome: [category.id] } },
+    orderBy: { createdAt: "desc" },
+    take: 24,
+  });
+
   return (
     <div className="container mx-auto">
-      <ClientPage category={category} />
+      <ClientPage category={category} products={products} />
     </div>
   );
 }
