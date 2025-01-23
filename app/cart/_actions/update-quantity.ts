@@ -1,0 +1,13 @@
+"use server";
+
+import { getSession, saveSession } from "@/lib/session";
+
+export default async function updateQuantity(productId: string, quantity: number) {
+  const cartItems = await getSession("cart");
+  const cartItem = cartItems.find((x) => x.productId === productId);
+
+  if (cartItem) {
+    cartItem.quantity = quantity;
+    await saveSession("cart", JSON.stringify(cartItems));
+  }
+}

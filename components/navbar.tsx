@@ -16,15 +16,16 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Category } from "@prisma/client";
+import { ShoppingCart } from "lucide-react";
 
 type NavbarProps = {
   session: Session | null;
   categories: Category[];
-}
+};
 
 export default function Navbar({ session, categories }: NavbarProps) {
   const pathname = usePathname();
-  
+
   const [isOpen, setIsOpen] = useState(false);
 
   if (pathname.startsWith("/dashboard")) {
@@ -60,6 +61,15 @@ export default function Navbar({ session, categories }: NavbarProps) {
                   </Link>
                 ))}
                 <Separator />
+                <Link
+                    href="/cart"
+                    className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                    prefetch={false}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <ShoppingCart />
+                    <span className="ml-5">Кошница</span>
+                  </Link>
                 {!session ? (
                   <Link
                     href="/login"
@@ -114,6 +124,13 @@ export default function Navbar({ session, categories }: NavbarProps) {
       </nav>
 
       <nav className="ml-auto hidden lg:flex">
+        <Link
+          href="/cart"
+          className="w-10 h-10 flex justify-center items-center rounded-full transition-colors hover:bg-gray-100 hover:text-gray-900"
+          prefetch={false}
+        >
+          <ShoppingCart />
+        </Link>
         {!session ? (
           <Link
             href="/login"
