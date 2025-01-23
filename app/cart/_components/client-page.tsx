@@ -47,7 +47,9 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
       const id = setTimeout(async () => {
         setIsLoading(true);
         await updateQuantity(productId, cartItemWithProduct.cartItem.quantity);
-        toast.success("Количеството беше запазено");
+        toast.success("Количеството беше запазено", {
+          position: "top-center",
+        });
         setIsLoading(false);
       }, 1000);
       setTimeoutId(id);
@@ -74,7 +76,9 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
       const id = setTimeout(async () => {
         setIsLoading(true);
         await updateQuantity(productId, cartItemWithProduct.cartItem.quantity);
-        toast.success("Количеството беше запазено");
+        toast.success("Количеството беше запазено", {
+          position: "top-center",
+        });
         setIsLoading(false);
       }, 1000);
       setTimeoutId(id);
@@ -96,9 +100,7 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
 
   const onCancel = async () => {
     if (!confirm("Сигурни ли сте, че искате да изпразните кошницата?")) return;
-
     await removeCart();
-    toast.success("Кошницата е празна");
   };
 
   return (

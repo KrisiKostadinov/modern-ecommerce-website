@@ -17,7 +17,9 @@ export default function AlertMessage({ productId }: AlertMessageProps) {
   const onDelete = async () => {
     setIsLoasding(true);
     await deleteAction(productId);
-    toast.success("Продуктът беше успешно премахнат от кошницата");
+    toast.success("Продуктът беше успешно премахнат от кошницата", {
+      position: "top-center",
+    });
     setIsLoasding(false);
   }
 

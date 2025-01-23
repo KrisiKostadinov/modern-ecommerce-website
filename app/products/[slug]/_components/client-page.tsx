@@ -3,8 +3,6 @@
 import {
   ChevronDown,
   ChevronUp,
-  MinusIcon,
-  PlusIcon,
   ShoppingBagIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -48,20 +46,11 @@ export default function ClientPage({
   const [quantity, setQuantity] = useState<number>(currentQuantity);
   const [previewImage, setPreviewImage] = useState<string | null>(product.thumbnailImage);
 
-  const increase = () => {
-    if (quantity >= product.quantity) {
-      return toast.error(`Максимално количество е ${product.quantity}`);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (value >= 1 && value <= product.quantity) {
+      setQuantity(value);
     }
-
-    setQuantity(quantity + 1);
-  };
-
-  const decrease = () => {
-    if (quantity <= 1) {
-      return toast.error("Минимално количество е 1");
-    }
-
-    setQuantity(quantity - 1);
   };
 
   const addToCart = async () => {
@@ -72,7 +61,9 @@ export default function ClientPage({
     if (result.error) {
       toast.error(result.error);
     } else {
-      toast.success(result.message);
+      toast.success(result.message, {
+        position: "top-center",
+      });
     }
 
     router.refresh();
@@ -116,27 +107,14 @@ export default function ClientPage({
                 <div className="space-y-1">
                   <Label>Количество</Label>
                   <div className="flex gap-2">
-                    <Button
-                      variant={"outline"}
-                      onClick={increase}
-                      disabled={quantity >= product.quantity}
-                    >
-                      <PlusIcon />
-                    </Button>
                     <Input
                       className="w-20"
                       type="number"
                       defaultValue={quantity}
                       min={1}
                       max={product.quantity}
+                      onChange={handleInputChange}
                     />
-                    <Button
-                      variant={"outline"}
-                      onClick={decrease}
-                      disabled={quantity <= 1}
-                    >
-                      <MinusIcon />
-                    </Button>
                   </div>
                 </div>
                 <div className="flex flex-col items-center justify-center">

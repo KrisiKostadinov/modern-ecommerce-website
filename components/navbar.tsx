@@ -17,13 +17,19 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Category } from "@prisma/client";
 import { ShoppingCart } from "lucide-react";
+import { CartItem } from "@/app/products/[slug]/_actions/add-to-cart-action";
 
 type NavbarProps = {
   session: Session | null;
   categories: Category[];
+  cartItems: CartItem[];
 };
 
-export default function Navbar({ session, categories }: NavbarProps) {
+export default function Navbar({
+  session,
+  categories,
+  cartItems,
+}: NavbarProps) {
   const pathname = usePathname();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -62,14 +68,21 @@ export default function Navbar({ session, categories }: NavbarProps) {
                 ))}
                 <Separator />
                 <Link
-                    href="/cart"
-                    className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                    prefetch={false}
-                    onClick={() => setIsOpen(false)}
-                  >
+                  href="/cart"
+                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                  prefetch={false}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <div className="flex w-full items-center">
                     <ShoppingCart />
                     <span className="ml-5">Кошница</span>
-                  </Link>
+                  </div>
+                  {cartItems.length > 0 && (
+                    <span className="py-1 px-3 rounded-full shadow text-white bg-red-500">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </Link>
                 {!session ? (
                   <Link
                     href="/login"
@@ -126,10 +139,15 @@ export default function Navbar({ session, categories }: NavbarProps) {
       <nav className="ml-auto hidden lg:flex">
         <Link
           href="/cart"
-          className="w-10 h-10 flex justify-center items-center rounded-full transition-colors hover:bg-gray-100 hover:text-gray-900"
+          className="relative w-10 h-10 flex justify-center items-center rounded-full transition-colors hover:bg-gray-100 hover:text-gray-900"
           prefetch={false}
         >
           <ShoppingCart />
+          {cartItems.length > 0 && (
+            <span className="absolute flex justify-center items-center -top-2 -right-2 w-6 h-6 rounded-full shadow text-white bg-red-500">
+              {cartItems.length}
+            </span>
+          )}
         </Link>
         {!session ? (
           <Link

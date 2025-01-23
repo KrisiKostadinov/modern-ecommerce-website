@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -13,14 +14,16 @@ export default function Header() {
           <p className="text-xl md:text-2xl mb-6">
             Намери уникални подаръци за всяка специална личност и момент.
           </p>
-          <Button
-            variant="default"
-            color="primary"
-            size="lg"
-            className="px-8 py-3 rounded-full font-semibold"
-          >
-            Разгледай подаръците
-          </Button>
+          <Link href={"/categories"}>
+            <Button
+              variant="default"
+              color="primary"
+              size="lg"
+              className="px-8 py-3 rounded-full font-semibold"
+            >
+              Разгледай подаръците
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

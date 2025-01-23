@@ -1,5 +1,10 @@
 import { prisma } from "@/db/prisma";
 import DisplayCategories from "@/app/(root)/_components/display-categories";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Категории - Подари усмивка",
+}
 
 export default async function Categories() {
   const categories = await prisma.category.findMany({

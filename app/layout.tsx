@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
 import { ToastContainer } from "react-toastify";
 import { prisma } from "@/db/prisma";
+import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +18,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const cartItems = await getSession("cart");
 
   const categories = await prisma.category.findMany({
     where: { places: { has: "NAVBAR" } },
@@ -30,7 +32,7 @@ export default async function RootLayout({
       <body className="bg-slate-100">
         <SessionProvider>
           <ToastContainer />
-          <Navbar session={session} categories={categories} />
+          <Navbar session={session} categories={categories} cartItems={cartItems} />
           {children}
         </SessionProvider>
       </body>

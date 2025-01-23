@@ -21,11 +21,11 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Подадърци за " + category.name,
+    title: "Подадърци за " + category.name + " - Подари усмивка",
     description: category.metaDescription || "",
     keywords: category.metaKeywords || "",
     openGraph: {
-      title: "Подадърци за " + category.name,
+      title: "Подадърци за " + category.name + " - Подари усмивка",
       description: category.metaDescription || "",
     },
   } as Metadata;
