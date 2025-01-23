@@ -22,6 +22,7 @@ import {
 } from "@/app/products/[slug]/_actions/add-to-cart-action";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import AlertMessage from "./alert-message";
 
 type ClientPageProps = {
   product: Product;
@@ -42,7 +43,7 @@ export default function ClientPage({
   const [isShowDescription, setIsShowDescription] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const currentQuantity = cartItem && cartItem.quantity ? cartItem.quantity : 1;
+  const currentQuantity = cartItem && Number(cartItem.quantity) ? cartItem.quantity : 1;
 
   const [quantity, setQuantity] = useState<number>(currentQuantity);
   const [previewImage, setPreviewImage] = useState<string | null>(product.thumbnailImage);
@@ -94,6 +95,7 @@ export default function ClientPage({
           </div>
         )}
         <div className="space-y-5 h-[600px] overflow-y-auto">
+          {isInCart && <AlertMessage productId={product.id} />}
           <div className="bg-white border rounded shadow py-3 px-4">
             <h1 className="text-3xl font-bold mb-5">{product.name}</h1>
             <p className={!isShowDescription ? "line-clamp-4" : ""}>
