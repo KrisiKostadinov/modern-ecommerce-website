@@ -23,23 +23,21 @@ export async function addToCartAction(productId: string, quantity: number) {
     return { error: "Няма достатъчно налично количество" };
   }
 
-  const session = ((await getSession("cart")) as CartItem[]) || [];
+  const cartItems = await getSession("cart");
+  const cartItem = cartItems.find((x) => x.productId === productId);
 
-  const cartItem = session.find((x) => x.productId === productId);
-
-  if (!cartItem) {
+  if (cartItem) {
+    cartItem.quantity = quantity;
+    await saveSession("cart", JSON.stringify(cartItems));
+  } else {
     const data: CartItem[] = [
-      ...session,
       {
         productId,
         quantity,
       },
+      ...cartItems,
     ];
-    await saveSession("cart", JSON.stringify(data));
-  } else {
-    const data: CartItem[] = session.map((item) =>
-      item.productId === productId ? { ...item, quantity } : item
-    );
+
     await saveSession("cart", JSON.stringify(data));
   }
 

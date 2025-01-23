@@ -21,24 +21,31 @@ import {
   CartItem,
 } from "@/app/products/[slug]/_actions/add-to-cart-action";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type ClientPageProps = {
   product: Product;
-  cart: CartItem[];
+  cartItems: CartItem[];
   productCategories: Category[];
 };
 
 export default function ClientPage({
   product,
-  cart,
+  cartItems,
   productCategories,
 }: ClientPageProps) {
+  const router = useRouter();
+  
+  const cartItem = cartItems.find((x) => x.productId === product.id);
+  const isInCart = Boolean(cartItem);
+
   const [isShowDescription, setIsShowDescription] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [quantity, setQuantity] = useState<number>(1);
-  const [previewImage, setPreviewImage] = useState<string | null>(
-    product.thumbnailImage
-  );
+
+  const currentQuantity = cartItem && cartItem.quantity ? cartItem.quantity : 1;
+
+  const [quantity, setQuantity] = useState<number>(currentQuantity);
+  const [previewImage, setPreviewImage] = useState<string | null>(product.thumbnailImage);
 
   const increase = () => {
     if (quantity >= product.quantity) {
@@ -67,6 +74,7 @@ export default function ClientPage({
       toast.success(result.message);
     }
 
+    router.refresh();
     setIsLoading(false);
   };
 
@@ -109,10 +117,7 @@ export default function ClientPage({
                     <Button
                       variant={"outline"}
                       onClick={increase}
-                      disabled={
-                        cart.find((x) => x.productId === product.id) !==
-                        undefined
-                      }
+                      disabled={quantity >= product.quantity}
                     >
                       <PlusIcon />
                     </Button>
@@ -126,10 +131,7 @@ export default function ClientPage({
                     <Button
                       variant={"outline"}
                       onClick={decrease}
-                      disabled={
-                        cart.find((x) => x.productId === product.id) !==
-                        undefined
-                      }
+                      disabled={quantity <= 1}
                     >
                       <MinusIcon />
                     </Button>
@@ -160,7 +162,7 @@ export default function ClientPage({
                 <ShoppingBagIcon className="mr-2" />
                 {isLoading
                   ? "Добавяне..."
-                  : cart.find((x) => x.productId === product.id)
+                  : isInCart
                   ? "Обнови количеството"
                   : "Добави в кошницата"}
               </Button>

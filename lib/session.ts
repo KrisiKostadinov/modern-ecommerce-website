@@ -1,6 +1,7 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { CartItem } from "@/app/products/[slug]/_actions/add-to-cart-action";
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
@@ -63,15 +64,16 @@ export async function deleteSession(name: string) {
   cookieStore.delete(name);
 }
 
-export async function getSession(name: string) {
+export async function getSession(name: string): Promise<CartItem[]> {
+  
   const cookieStore = await cookies();
   const session = cookieStore.get(name)?.value;
   const decrypted = await decrypt(session);
-
+  
   if (decrypted && decrypted.payload && typeof decrypted.payload === 'object') {
     const parsedData = JSON.parse((decrypted.payload as { data: string }).data);
     return parsedData;
   }
 
-  return null;
+  return [];
 }

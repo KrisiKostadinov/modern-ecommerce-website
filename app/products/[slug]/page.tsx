@@ -76,7 +76,7 @@ export default async function CategoryPage({
 }) {
   const awaitedParams = await params;
   const slug = awaitedParams.slug;
-  const cart = await getSession("cart");
+  const cartItems = await getSession("cart");
 
   const product = await prisma.product.findUnique({
     where: { slug },
@@ -89,14 +89,18 @@ export default async function CategoryPage({
   const productCategories = await prisma.category.findMany({
     where: {
       id: {
-        in: product.categoryIds
-      }
-    }
+        in: product.categoryIds,
+      },
+    },
   });
 
   return (
     <div className="container mx-auto">
-      <ClientPage product={product} cart={cart} productCategories={productCategories} />
+      <ClientPage
+        product={product}
+        cartItems={cartItems}
+        productCategories={productCategories}
+      />
     </div>
   );
 }

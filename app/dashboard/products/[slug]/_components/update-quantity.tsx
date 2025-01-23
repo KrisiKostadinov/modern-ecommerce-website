@@ -26,7 +26,7 @@ type UpdateQuantityProps = {
 };
 
 const formSchema = z.object({
-  quantity: z.number().nullable(),
+  quantity: z.coerce.number().nullable(),
 });
 
 export type FormSchemaProps = z.infer<typeof formSchema>;
@@ -85,6 +85,7 @@ export default function UpdateQuantity({
                   <FormLabel>Описание</FormLabel>
                   <FormControl>
                     <Input
+                      type="number"
                       placeholder="Напишете количество на продукта"
                       {...field}
                       value={field.value ?? ''}
