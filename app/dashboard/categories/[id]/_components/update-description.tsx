@@ -49,7 +49,7 @@ export default function UpdateDescription({
 
   const formattedDescription =
     description && description.replace(/\n/g, "<br>");
-  const displayButtonText = !id ? "Добавяне" : "Редактиране";
+  const displayButtonText = !id ? "Добавяне" : "Промяна";
   const displayFormButtonText = !id ? "Добавяне" : "Запазване";
 
   const onSubmit = async (values: FormSchemaProps) => {

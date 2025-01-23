@@ -21,7 +21,7 @@ export default async function UpdateCategory({
   let category: Category | null = null;
 
   const isNew = awaitedParams.id === "create";
-  const heading = isNew ? "Добавяне" : "Редактиране";
+  const heading = isNew ? "Добавяне" : "Промяна";
 
   category = await prisma.category.findFirst({
     where: { id: awaitedParams.id }

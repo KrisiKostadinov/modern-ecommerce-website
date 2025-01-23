@@ -6,11 +6,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import { EyeIcon, EyeOffIcon, PenIcon, SaveIcon } from "lucide-react";
+import { PenIcon, SaveIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -19,45 +17,43 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import updateDescriptionAction from "@/app/dashboard/products/[slug]/_actions/update-description";
+import updateQuantityAction from "@/app/dashboard/products/[slug]/_actions/update-quantity-action";
+import { Input } from "@/components/ui/input";
 
-type UpdateDescriptionProps = {
-  id: string | null;
-  description: string | null;
+type UpdateQuantityProps = {
+  productId: string | null;
+  quantity: number | null;
 };
 
 const formSchema = z.object({
-  description: z.string(),
+  quantity: z.number().nullable(),
 });
 
 export type FormSchemaProps = z.infer<typeof formSchema>;
 
-export default function UpdateDescription({
-  id,
-  description,
-}: UpdateDescriptionProps) {
+export default function UpdateQuantity({
+  productId,
+  quantity,
+}: UpdateQuantityProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isDescriptionShow, setIsDescriptionShow] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<FormSchemaProps>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      description: description || "",
+      quantity,
     },
   });
 
-  const formattedDescription =
-    description && description.replace(/\n/g, "<br>");
-  const displayButtonText = !id ? "Добавяне" : "Промяна";
-  const displayFormButtonText = !id ? "Добавяне" : "Запазване";
+  const displayButtonText = !productId ? "Добавяне" : "Промяна";
+  const displayFormButtonText = !productId ? "Добавяне" : "Запазване";
 
   const onSubmit = async (values: FormSchemaProps) => {
-    if (!id) {
+    if (!productId) {
       return toast.error("Този продукт не е намерен");
     }
 
-    const result = await updateDescriptionAction(id, values);
+    const result = await updateQuantityAction(productId, values.quantity);
 
     if (result.error) {
       return toast.error(result.error);
@@ -71,17 +67,9 @@ export default function UpdateDescription({
   return (
     <div className="bg-white border rounded shadow p-5 space-y-4">
       <div>
-        <div className="font-semibold">Описание</div>
-        {formattedDescription ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: formattedDescription,
-            }}
-            className={cn(
-              "text-muted-foreground mt-5",
-              isDescriptionShow ? "" : "line-clamp-2"
-            )}
-          />
+        <div className="font-semibold">Количество</div>
+        {quantity ? (
+          <div>{quantity === 1 ? `${quantity} брой` : `${quantity} броя`}</div>
         ) : (
           <div className="text-muted-foreground">Няма описание</div>
         )}
@@ -91,16 +79,16 @@ export default function UpdateDescription({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="description"
+              name="quantity"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Описание</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Напишете описание на продукта"
+                    <Input
+                      placeholder="Напишете количество на продукта"
                       {...field}
+                      value={field.value ?? ''}
                       disabled={form.formState.isSubmitting}
-                      rows={10}
                       autoFocus
                     />
                   </FormControl>
@@ -131,15 +119,6 @@ export default function UpdateDescription({
             <PenIcon />
             {displayButtonText}
           </Button>
-          {formattedDescription && (
-            <Button
-              variant={"outline"}
-              onClick={() => setIsDescriptionShow(!isDescriptionShow)}
-            >
-              {!isDescriptionShow ? <EyeIcon /> : <EyeOffIcon />}
-              {isDescriptionShow ? "Скраване" : "Показване"}
-            </Button>
-          )}
         </div>
       )}
     </div>

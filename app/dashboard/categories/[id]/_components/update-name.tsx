@@ -43,7 +43,7 @@ export default function UpdateName({ id, name }: UpdateNameProps) {
   });
 
   const displayName = name ? name : "Няма";
-  const displayButtonText = !id ? "Добавяне" : "Редактиране";
+  const displayButtonText = !id ? "Добавяне" : "Промяна";
   const displayFormButtonText = !id ? "Добавяне" : "Запазване";
 
   const onSubmit = async (values: FormSchemaProps) => {

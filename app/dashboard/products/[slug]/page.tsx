@@ -18,6 +18,7 @@ import UploadImages from "@/app/dashboard/products/[slug]/_components/update-ima
 import UpdateMetaDescription from "@/app/dashboard/products/[slug]/_components/update-meta-description";
 import UpdateMetaKeywords from "@/app/dashboard/products/[slug]/_components/update-meta-keywords";
 import UpdateCategories from "./_components/update-categories";
+import UpdateQuantity from "./_components/update-quantity";
 
 export const metadata: Metadata = {
   title: "Продукти",
@@ -32,7 +33,7 @@ export default async function UpdateProduct({
   let product: Product | null = null;
 
   const isNew = awaitedParams.slug === "create";
-  const heading = isNew ? "Добавяне" : "Редактиране";
+  const heading = isNew ? "Добавяне" : "Промяна";
 
   if (awaitedParams.slug && !isNew) {
     product = await prisma.product.findUnique({
@@ -82,6 +83,15 @@ export default async function UpdateProduct({
           <UpdateSellingPrice
             productId={product.id}
             sellingPrice={product.sellingPrice}
+          />
+        )}
+      </div>
+
+      <div className="mb-5">
+        {product && (
+          <UpdateQuantity
+            productId={product.id}
+            quantity={product.quantity}
           />
         )}
       </div>

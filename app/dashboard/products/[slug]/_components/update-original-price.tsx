@@ -63,7 +63,7 @@ export default function UpdateOriginalPrice({
   };
 
   const displayOriginalPrice = originalPrice ? formatPrice(originalPrice) : "Няма";
-  const displayButtonText = !productId ? "Добавяне" : "Редактиране";
+  const displayButtonText = !productId ? "Добавяне" : "Промяна";
   const displayFormButtonText = !productId ? "Добавяне" : form.formState.isSubmitting ? "Зареждане..." : "Запазване";
 
   return (
