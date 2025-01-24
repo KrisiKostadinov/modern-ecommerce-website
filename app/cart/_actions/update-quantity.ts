@@ -1,9 +1,10 @@
 "use server";
 
-import { getSession, saveSession } from "@/lib/session";
+import { getCartItems } from "@/app/cart/_actions/helper";
+import { saveSession } from "@/lib/session";
 
 export default async function updateQuantity(productId: string, quantity: number) {
-  const cartItems = await getSession("cart");
+  const cartItems = await getCartItems();
   const cartItem = cartItems.find((x) => x.productId === productId);
 
   if (cartItem) {

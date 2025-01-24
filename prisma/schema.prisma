@@ -143,3 +143,47 @@ enum ProductStatus {
   INACTIVE
   DRAFT
 }
+
+model Order {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  orderNumber     String         @unique
+  fullname        String
+  email           String
+  deliveryCity    String
+  deliveryAddress String
+  phoneNumber     String
+  paymentMethod   PaymentMethod  @default(CASH)
+  deliveryMethod  DeliveryMethod @default(STANDART)
+  status          OrderStatus    @default(CONFIRMED)
+  paymentStatus   PaymentStatus  @default(PENDING)
+  totalAmount     Float
+  createdAt       DateTime       @default(now())
+  customerNote    String?
+  orderProducts   Json
+}
+
+enum PaymentMethod {
+  CASH
+}
+
+enum OrderStatus {
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+  PENDING
+}
+
+enum DeliveryMethod {
+  STANDART
+  EXPRESS
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}

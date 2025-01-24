@@ -1,7 +1,8 @@
 "use server";
 
+import { getCartItems } from "@/app/cart/_actions/helper";
 import { prisma } from "@/db/prisma";
-import { getSession, saveSession } from "@/lib/session";
+import { saveSession } from "@/lib/session";
 
 export interface CartItem {
   productId: string;
@@ -23,7 +24,7 @@ export async function addToCartAction(productId: string, quantity: number) {
     return { error: "Няма достатъчно налично количество" };
   }
 
-  const cartItems = await getSession("cart");
+  const cartItems = await getCartItems();
   const cartItem = cartItems.find((x) => x.productId === productId);
 
   if (cartItem) {

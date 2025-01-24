@@ -14,9 +14,13 @@ import removeCart from "@/app/cart/_actions/remove-cart";
 
 type ClientPageProps = {
   cartItemWithProducts: CartItemWithProduct[];
+  totalAmount: number;
 };
 
-export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
+export default function ClientPage({
+  cartItemWithProducts,
+  totalAmount,
+}: ClientPageProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
@@ -84,19 +88,6 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
       setTimeoutId(id);
     }
   };
-
-  const totalPrice = () => {
-    return cartItemWithProducts.reduce((acc, cartItem) => {
-      const price =
-        cartItem.product.sellingPrice || cartItem.product.originalPrice;
-      if (price) {
-        acc += cartItem.cartItem.quantity * price;
-      }
-      return acc;
-    }, 0);
-  };
-
-  const onConfirm = async () => {};
 
   const onCancel = async () => {
     if (!confirm("Сигурни ли сте, че искате да изпразните кошницата?")) return;
@@ -191,7 +182,7 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
           <div className="bg-white border rounded-md py-3 px-4 space-y-5">
             <div className="flex justify-between">
               <h2 className="text-xl font-semibold">Възможности</h2>
-              <span className="text-xl">{formatPrice(totalPrice())}</span>
+              <span className="text-xl">{formatPrice(totalAmount)}</span>
             </div>
             <div className="flex max-md:flex-col md:justify-between items-center gap-5">
               <Button
@@ -202,9 +193,11 @@ export default function ClientPage({ cartItemWithProducts }: ClientPageProps) {
               >
                 Изпрашване на кошницата
               </Button>
-              <Button size={"lg"} onClick={onConfirm} className="max-md:w-full">
-                Продължаване с поръчката
-              </Button>
+              <Link href={"/order"}>
+                <Button size={"lg"} className="max-md:w-full">
+                  Продължаване с поръчката
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

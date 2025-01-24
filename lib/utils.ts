@@ -38,3 +38,15 @@ export function replaceNewlinesWithComma(text: string) {
   const updatedText = text.replace(/\n/g, ", ");
   return updatedText;
 }
+
+export function generateOrderCode(length: number = 10): string {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let orderCode = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    orderCode += characters[randomIndex];
+  }
+
+  return orderCode;
+}

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { prisma } from "@/db/prisma";
 import ClientPage from "@/app/products/[slug]/_components/client-page";
-import { getSession } from "@/lib/session";
+import { getCartItems } from "@/app/cart/_actions/helper";
 
 export async function generateMetadata({
   params,
@@ -76,7 +76,7 @@ export default async function CategoryPage({
 }) {
   const awaitedParams = await params;
   const slug = awaitedParams.slug;
-  const cartItems = await getSession("cart");
+  const cartItems = await getCartItems();
 
   const product = await prisma.product.findUnique({
     where: { slug },
