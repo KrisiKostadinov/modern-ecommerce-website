@@ -18,18 +18,18 @@ export default async function SuccessOrder({
 }) {
   const orderNumber = (await params).slug;
 
-  const order = await prisma.order.findUnique({
-    where: { orderNumber },
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+
+  const order = await prisma.order.findFirst({
+    where: {
+      orderNumber: orderNumber,
+      createdAt: {
+        gte: fiveMinutesAgo,
+      },
+    },
   });
 
-  await prisma.order.update({
-    where: { orderNumber },
-    data: {
-      status: "CONFIRMED",
-    }
-  });
-
-  if (!order || order && order.status !== "PENDING") {
+  if (!order) {
     return redirect("/");
   }
 
