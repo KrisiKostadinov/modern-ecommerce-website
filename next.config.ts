@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
         hostname: "utfs.io"
       }
     ]
-  }
+  },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
