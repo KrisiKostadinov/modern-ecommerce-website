@@ -36,16 +36,16 @@ export default async function SuccessOrder({
   const orderProducts = order.orderProducts as OrderProduct[];
 
   return (
-    <div className="container mx-auto max-sm:px-5">
+    <main className="min-h-screen container mx-auto max-sm:px-5">
       <h1 className="text-2xl font-semibold text-center my-5">
         Поръчката е завършена
       </h1>
       <div className="bg-white border rounded-md shadow py-3 px-4">
         <div>
           <h2 className="text-xl mb-5">Подробности за доставката</h2>
-          <div className="my-5 text-center bg-red-100 py-5 border border-red-200 rounded-md">
+          <div className="my-5 text-center bg-green-100 py-5 border border-green-200 rounded-md">
             <strong>Важно! </strong>
-            <span>Доставката ще направена в рамките на 3 работни дни</span>
+            <span>Доставката ще бъде направена в рамките на 3 работни дни</span>
           </div>
           <div className="overflow-x-scroll">
             <table className="border-collapse w-full text-left">
@@ -116,6 +116,6 @@ export default async function SuccessOrder({
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

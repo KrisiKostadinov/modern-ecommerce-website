@@ -95,12 +95,12 @@ export default async function CategoryPage({
   });
 
   return (
-    <div className="container mx-auto">
+    <main className="min-h-screen container mx-auto">
       <ClientPage
         product={product}
         cartItems={cartItems}
         productCategories={productCategories}
       />
-    </div>
+    </main>
   );
 }

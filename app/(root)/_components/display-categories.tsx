@@ -30,8 +30,8 @@ export default function DisplayCategories({
             <p className="text-muted-foreground line-clamp-2">
               {category.description}
             </p>
-            <Button className="w-full" variant={"destructive"}>
-              Вижте повече
+            <Button className="w-full">
+              Рагледайте подаръците
             </Button>
           </Link>
         </div>

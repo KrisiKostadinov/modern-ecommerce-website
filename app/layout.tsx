@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { ToastContainer } from "react-toastify";
 import { prisma } from "@/db/prisma";
 import { getCartItems } from "./cart/_actions/helper";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,13 +28,40 @@ export default async function RootLayout({
     },
   });
 
+  const [navbarCategories, footerCategories] = await Promise.all([
+    await prisma.category.findMany({
+      where: { places: { has: "NAVBAR" } },
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    await prisma.category.findMany({
+      where: { places: { has: "FOOTER" } },
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+  ]);
+
   return (
     <html lang="bg">
       <body className="bg-slate-100">
         <SessionProvider>
           <ToastContainer />
-          <Navbar session={session} categories={categories} cartItems={cartItems} />
+          <Navbar
+            session={session}
+            categories={navbarCategories}
+            cartItems={cartItems}
+          />
           {children}
+          <Footer
+            session={session}
+            categories={footerCategories}
+            contactsInfo={{
+              phone: process.env.ADMIN_SALES_PHONE || "",
+              email: process.env.ADMIN_SALES_EMAIL || "",
+            }}
+          />
         </SessionProvider>
       </body>
     </html>

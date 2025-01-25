@@ -11,13 +11,14 @@ import { CategoryPlace } from "@prisma/client";
 import updatePlaceAction from "@/app/dashboard/categories/[id]/_actions/update-places";
 import { Button } from "@/components/ui/button";
 
-const allPlaces: CategoryPlace[] = ["HOME_PAGE", "CATEGORIES_PAGE", "NAVBAR"];
+const allPlaces: CategoryPlace[] = ["HOME_PAGE", "CATEGORIES_PAGE", "NAVBAR", "FOOTER"];
 
 const mapPlace = (place: CategoryPlace) => {
   const places = {
     HOME_PAGE: "Начална страница",
     CATEGORIES_PAGE: "Страница с категории",
-    NAVBAR: "Навигационна лента"
+    NAVBAR: "Навигационна лента",
+    FOOTER: "Долната част на сайта",
   };
 
   return places[place];

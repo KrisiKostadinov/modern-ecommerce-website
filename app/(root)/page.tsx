@@ -29,7 +29,7 @@ export default async function Home() {
   });
 
   return (
-    <>
+    <main className="min-h-screen">
       <Header />
       <h2 className="text-2xl font-semibold my-5 text-center">Категории</h2>
       <DisplayCategories categories={categories} />
@@ -43,6 +43,6 @@ export default async function Home() {
       </h2>
 
       <DisplayProductsWrapper products={lastProducts} />
-    </>
+    </main>
   );
 }

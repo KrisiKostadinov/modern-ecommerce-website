@@ -30,7 +30,8 @@ export const DisplayProductsWrapper = ({ products }: DisplayProductsWrapperProps
                 className="w-full h-[300px] object-cover border rounded-md"
               />
             )}
-            <h2 className="text-lg font-semibold">{product.name}</h2>
+            <h2 className="text-lg font-semibold line-clamp-1">{product.name}</h2>
+            <p className="line-clamp-1">{product.description}</p>
             {product.originalPrice && (
               <div className="flex gap-5">
                 <p className={cn("", product.sellingPrice && "line-through")}>

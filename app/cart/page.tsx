@@ -36,12 +36,12 @@ export default async function Cart() {
   const totalAmount = calculateTotalAmount(cartItemsWithProducts);
 
   return (
-    <div className="container mx-auto pb-5">
+    <main className="min-h-screen container mx-auto pb-5">
       <h1 className="my-5 text-2xl text-center font-semibold">Кошница</h1>
       <ClientPage
         cartItemWithProducts={cartItemsWithProducts}
         totalAmount={totalAmount}
       />
-    </div>
+    </main>
   );
 }

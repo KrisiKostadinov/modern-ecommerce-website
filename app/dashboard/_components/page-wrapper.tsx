@@ -6,8 +6,8 @@ type PageWrapperProps = {
 
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (
-    <div className="max-w-[1440px] mx-auto max-2xl:px-5">
+    <main className="min-h-screen max-w-[1440px] mx-auto max-2xl:px-5">
       {children}
-    </div>
+    </main>
   );
 }

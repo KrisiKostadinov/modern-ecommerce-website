@@ -4,6 +4,7 @@ import { OrderStatus } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useRouter, useSearchParams } from "next/navigation";
+import DisplaySortHeader from "./display-sort-header";
 
 interface OrderStatusItem {
   key: OrderStatus;
@@ -41,7 +42,7 @@ const statuses: OrderStatusItem[] = [
   },
 ];
 
-export default function DisplayHeader() {
+export default function DisplayStatusHeader() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -57,6 +58,7 @@ export default function DisplayHeader() {
   return (
     <ScrollArea className="bg-white border rounded-md py-3 px-4 mb-5">
       <div className="flex gap-2">
+        <DisplaySortHeader />
         {statuses.map((status, index) => (
           <Button
             variant={isActive(status.key) ? "default" : "outline"}

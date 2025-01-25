@@ -19,9 +19,9 @@ export default async function Categories() {
   });
 
   return (
-    <div className="container mx-auto">
+    <main className="min-h-screen container mx-auto">
       <h1 className="mt-5 text-2xl text-center font-semibold">Категории</h1>
       <DisplayCategories categories={categories} />
-    </div>
+    </main>
   );
 }

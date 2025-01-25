@@ -103,6 +103,7 @@ enum CategoryPlace {
   HOME_PAGE
   CATEGORIES_PAGE
   NAVBAR
+  FOOTER
 }
 
 model Image {

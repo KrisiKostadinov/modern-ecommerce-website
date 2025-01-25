@@ -3,9 +3,11 @@ import { redirect } from "next/navigation";
 import PageWrapper from "@/app/dashboard/_components/page-wrapper";
 import { prisma } from "@/db/prisma";
 import { OrderStatus } from "@prisma/client";
-import DisplayHeader from "@/app/dashboard/orders/_components/display-header";
+import DisplayStatusHeader from "@/app/dashboard/orders/_components/display-status-header";
 import DisplayTable from "@/app/dashboard/orders/_components/display-table";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+
+export type SortOrder = "asc" | "desc";
 
 interface OrdersProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -29,10 +31,12 @@ export default async function Orders({ searchParams }: OrdersProps) {
 
   const pageSize = Number(awaitedParams.pageSize) || 5;
   const currentPage = Number(awaitedParams.page) || 1;
+  const orderBy = updateOrder(String(awaitedParams.sort));
 
   const [orders, totalOrders] = await Promise.all([
     prisma.order.findMany({
       where: { status: status.toString().toUpperCase() as OrderStatus },
+      orderBy: { createdAt: orderBy },
       take: pageSize,
       skip: (currentPage - 1) * pageSize,
     }),
@@ -44,7 +48,7 @@ export default async function Orders({ searchParams }: OrdersProps) {
   return (
     <PageWrapper>
       <h1 className="text-2xl font-semibold my-5">Поръчки ({totalOrders})</h1>
-      <DisplayHeader />
+      <DisplayStatusHeader />
       <DisplayTable orders={orders} />
       <div className="bg-white border rounded-md py-3 px-4 mt-5">
         <PaginationWithLinks
@@ -58,4 +62,12 @@ export default async function Orders({ searchParams }: OrdersProps) {
       </div>
     </PageWrapper>
   );
+}
+
+function updateOrder(orderBy: string): SortOrder {
+  if (orderBy === "asc" || orderBy === "desc") {
+    return orderBy;
+  }
+
+  return "desc";
 }
