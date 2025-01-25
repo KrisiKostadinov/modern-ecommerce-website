@@ -21,7 +21,7 @@ export default async function RootLayout({
   const session = await auth();
   const cartItems = await getCartItems();
 
-  const categories = await prisma.category.findMany({
+  await prisma.category.findMany({
     where: { places: { has: "NAVBAR" } },
     orderBy: {
       createdAt: "desc",
