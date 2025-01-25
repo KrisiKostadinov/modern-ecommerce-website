@@ -75,7 +75,7 @@ export async function createOrderAction(values: FormSchemaProps) {
       deliveryCity: values.deliveryCity,
       email: values.email,
       phoneNumber: values.phoneNumber,
-      status: "PENDING",
+      status: "CONFIRMED",
       paymentMethod: values.paymentMethod,
       deliveryMethod: values.deliveryMethod,
       paymentStatus: "PENDING",

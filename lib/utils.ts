@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -50,3 +51,17 @@ export function generateOrderCode(length: number = 10): string {
 
   return orderCode;
 }
+
+export const displayStatusLabel = (status: OrderStatus) => {
+  const labels: { [key in OrderStatus]: string } = {
+    DELIVERED: "Доставена",
+    SHIPPED: "Изпратена",
+    PENDING: "Изчакване",
+    CANCELLED: "Отказана",
+    PROCESSING: "Изпълнява се",
+    RETURNED: "Върната",
+    CONFIRMED: "Потвърдена",
+  };
+  
+  return labels[status];
+};

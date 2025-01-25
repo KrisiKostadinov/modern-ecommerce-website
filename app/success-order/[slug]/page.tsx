@@ -47,62 +47,66 @@ export default async function SuccessOrder({
             <strong>Важно! </strong>
             <span>Доставката ще направена в рамките на 3 работни дни</span>
           </div>
-          <table className="border-collapse w-full text-left">
-            <thead>
-              <tr>
-                <th className="border py-1 px-2">&#8470;</th>
-                <th className="border py-1 px-2">Адрес</th>
-                <th className="border py-1 px-2">Град</th>
-                <th className="border py-1 px-2">Имейл</th>
-                <th className="border py-1 px-2">Име и фамилия</th>
-                <th className="border py-1 px-2">Статус</th>
-                <th className="border py-1 px-2">Телефон</th>
-                <th className="border py-1 px-2">Сума</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border py-1 px-2">{order.orderNumber}</td>
-                <td className="border py-1 px-2">{order.deliveryCity}</td>
-                <td className="border py-1 px-2">{order.deliveryAddress}</td>
-                <td className="border py-1 px-2">{order.email}</td>
-                <td className="border py-1 px-2">{order.fullname}</td>
-                <td className="border py-1 px-2">Потвърдена</td>
-                <td className="border py-1 px-2">{order.phoneNumber}</td>
-                <td className="border py-1 px-2">
-                  {formatPrice(order.totalAmount)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <h2 className="text-xl my-5">Поръчани продукти</h2>
-          <table className="border-collapse w-full text-left">
-            <thead>
-              <tr>
-                <th className="border py-1 px-2">Име</th>
-                <th className="border py-1 px-2">Цена</th>
-                <th className="border py-1 px-2">Количество</th>
-                <th className="border py-1 px-2">Цена</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orderProducts.map((product, index) => (
-                <tr key={index}>
-                  <td className="border py-1 px-2">{product.name}</td>
+          <div className="overflow-x-scroll">
+            <table className="border-collapse w-full text-left">
+              <thead>
+                <tr>
+                  <th className="border py-1 px-2">&#8470;</th>
+                  <th className="border py-1 px-2">Адрес</th>
+                  <th className="border py-1 px-2">Град</th>
+                  <th className="border py-1 px-2">Имейл</th>
+                  <th className="border py-1 px-2">Име и фамилия</th>
+                  <th className="border py-1 px-2">Статус</th>
+                  <th className="border py-1 px-2">Телефон</th>
+                  <th className="border py-1 px-2">Сума</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border py-1 px-2">{order.orderNumber}</td>
+                  <td className="border py-1 px-2">{order.deliveryCity}</td>
+                  <td className="border py-1 px-2">{order.deliveryAddress}</td>
+                  <td className="border py-1 px-2">{order.email}</td>
+                  <td className="border py-1 px-2">{order.fullname}</td>
+                  <td className="border py-1 px-2">Потвърдена</td>
+                  <td className="border py-1 px-2">{order.phoneNumber}</td>
                   <td className="border py-1 px-2">
-                    {formatPrice(product.price)}
-                  </td>
-                  <td className="border py-1 px-2">
-                    {product.quantity}{" "}
-                    {product.quantity === 1 ? "брой" : "броя"}
-                  </td>
-                  <td className="border py-1 px-2">
-                    {formatPrice(product.quantity * product.price)}
+                    {formatPrice(order.totalAmount)}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
+          <h2 className="text-xl my-5">Поръчани продукти</h2>
+          <div className="overflow-x-scroll">
+            <table className="border-collapse w-full text-left">
+              <thead>
+                <tr>
+                  <th className="border py-1 px-2">Име</th>
+                  <th className="border py-1 px-2">Цена</th>
+                  <th className="border py-1 px-2">Количество</th>
+                  <th className="border py-1 px-2">Цена</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderProducts.map((product, index) => (
+                  <tr key={index}>
+                    <td className="border py-1 px-2">{product.name}</td>
+                    <td className="border py-1 px-2">
+                      {formatPrice(product.price)}
+                    </td>
+                    <td className="border py-1 px-2">
+                      {product.quantity}{" "}
+                      {product.quantity === 1 ? "брой" : "броя"}
+                    </td>
+                    <td className="border py-1 px-2">
+                      {formatPrice(product.quantity * product.price)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="mt-3 flex justify-center">
           <Link href={"/categories"}>
