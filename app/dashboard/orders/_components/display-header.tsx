@@ -32,6 +32,10 @@ const statuses: OrderStatusItem[] = [
     label: "Чакащи",
   },
   {
+    key: "PROCESSING",
+    label: "В процес",
+  },
+  {
     key: "RETURNED",
     label: "Върнати",
   },
