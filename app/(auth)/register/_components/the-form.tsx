@@ -3,6 +3,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +21,7 @@ import { formSchema, FormSchemaProps } from "@/app/(auth)/register/_schemas";
 import { registerUser } from "@/app/(auth)/register/_actions";
 
 export default function TheForm() {
+  const router = useRouter();
   const form = useForm<FormSchemaProps>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,7 +31,14 @@ export default function TheForm() {
   });
 
   const onSubmit = async (values: FormSchemaProps) => {
-    await registerUser(values);
+    const result = await registerUser(values);
+
+    if (result.error) {
+      return toast.error(result.error);
+    }
+
+    router.push("/login");
+    toast.success(result.message);
   };
 
   return (
@@ -70,10 +80,21 @@ export default function TheForm() {
             </FormItem>
           )}
         />
+        <div>
+          Ако се регистрирате, Вие се съгласявате с нашата{" "}
+          <Link href={"/privacy-policy"} className="underline font-semibold">
+            Политика за поверителност
+          </Link>{" "}
+          и{" "}
+          <Link href={"/terms"} className="underline font-semibold">
+            Общите условия
+          </Link>
+          .
+        </div>
         <div className="flex flex-col">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {!form.formState.isSubmitting
-              ? "Влизане в акаунта"
+              ? "Създаване на акаунт"
               : "Зареждане..."}
           </Button>
           <Button

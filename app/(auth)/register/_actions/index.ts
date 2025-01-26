@@ -1,10 +1,25 @@
 "use server";
 
+import { randomBytes } from "crypto";
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
 
+import { formSchema, FormSchemaProps } from "@/app/(auth)/register/_schemas";
+import { loadHtmlFile, replaceVariables } from "@/lib/mails/helper";
+import { sendEmail } from "@/lib/mails/send-email";
 import { prisma } from "@/db/prisma";
-import { FormSchemaProps, formSchema } from "@/app/(auth)/register/_schemas";
+
+const generateConfirmationLink = (id: string, token: string): string => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const confirmationLink = `${baseUrl}/confirm/${id}?token=${token}`;
+
+  return confirmationLink;
+};
+
+const generateToken = (length: number = 32): string => {
+  const buffer = randomBytes(length);
+  const token = buffer.toString("hex");
+  return token;
+};
 
 export const registerUser = async (values: FormSchemaProps) => {
   const validatedValues = formSchema.safeParse(values);
@@ -27,13 +42,61 @@ export const registerUser = async (values: FormSchemaProps) => {
 
   const role = numberOfUsers === 0 ? "ADMIN" : "USER";
 
-  await prisma.user.create({
-    data: {
-      email: values.email,
-      password: hashedPassword,
-      role,
-    },
-  });
+  const token = generateToken();
+  
+  try {
+    await prisma.$transaction(async (prismaTransaction) => {
+      const createdUser = await prismaTransaction.user.create({
+        data: {
+          email: values.email,
+          password: hashedPassword,
+          role,
+        },
+      });
 
-  redirect("/login");
+      await prismaTransaction.token.create({
+        data: {
+          token,
+          userId: createdUser.id,
+          expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
+        },
+      });
+
+      const link = generateConfirmationLink(createdUser.id, token);
+
+      const emailValues = {
+        website_name: process.env.WEBSITE_TITLE || "",
+        website_url: process.env.NEXT_PUBLIC_SITE_URL || "",
+        current_year: new Date().getFullYear().toString() || "",
+        email: values.email || "",
+        link: link,
+        website_email: process.env.NEXT_PUBLIC_SITE_URL || "",
+        sales_email: process.env.ADMIN_SALES_EMAIL || "",
+        sales_phone: process.env.ADMIN_SALES_PHONE || "",
+      };
+
+      const html = await loadHtmlFile("email-confirmation");
+      const emailTemplate = replaceVariables(html, emailValues);
+
+      if (!emailTemplate.success) {
+        throw new Error(emailTemplate.result);
+      }
+
+      const result = await sendEmail({
+        to: values.email,
+        subject: "Потвърждение на имейл",
+        html: emailTemplate.result,
+        allowReply: false,
+      });
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+    });
+
+    return { message: "Профилът беше създаден" };
+  } catch (error) {
+    console.error("Грешка при регистрация на потребител:", error);
+    return { error: "Грешка при регистрация на потребител" };
+  }
 };

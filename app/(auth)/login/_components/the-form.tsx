@@ -73,7 +73,7 @@ export default function TheForm() {
         <div className="flex flex-col">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {!form.formState.isSubmitting
-              ? "Създаване на акаунта"
+              ? "Влизане на акаунта"
               : "Зареждане..."}
           </Button>
           <Button
