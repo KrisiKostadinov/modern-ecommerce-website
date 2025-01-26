@@ -24,7 +24,7 @@ export function replaceVariables(
 
 export function loadHtmlFile(filename: string) {
   const html = fs.readFileSync(
-    process.cwd() + `\\html-templates\\${filename}.html`,
+    process.cwd() + `/html-templates/${filename}.html`,
     "utf-8"
   );
   return html;
