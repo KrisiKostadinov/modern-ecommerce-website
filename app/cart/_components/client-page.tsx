@@ -11,6 +11,7 @@ import { CartItemWithProduct } from "@/app/cart/page";
 import { Button } from "@/components/ui/button";
 import updateQuantity from "@/app/cart/_actions/update-quantity";
 import removeCart from "@/app/cart/_actions/remove-cart";
+import removeProduct from "../_actions/remove-product-action";
 
 type ClientPageProps = {
   cartItemWithProducts: CartItemWithProduct[];
@@ -71,8 +72,13 @@ export default function ClientPage({
 
     if (cartItemWithProduct) {
       if (cartItemWithProduct.cartItem.quantity - 1 < 1) {
-        toast.error("Не можете да премахнете повече от 1 бройка");
-        return;
+        const result = await removeProduct(productId);
+
+        if (!result.success) {
+          return toast.error(result.error);
+        }
+        
+        return toast.success(result.success);
       }
 
       cartItemWithProduct.cartItem.quantity--;
@@ -170,7 +176,7 @@ export default function ClientPage({
                     <Button
                       variant={"outline"}
                       onClick={() => decrease(item.product.id)}
-                      disabled={isLoading || item.cartItem.quantity <= 1}
+                      disabled={isLoading || item.cartItem.quantity < 1}
                     >
                       <MinusIcon />
                     </Button>

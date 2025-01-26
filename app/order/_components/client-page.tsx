@@ -39,7 +39,7 @@ export const formSchema = z.object({
     .string()
     .min(1, { message: "Моля, въведете град за доставка" }),
   deliveryAddress: z.string().min(1, { message: "Въведете адрес за доставка" }),
-  phoneNumber: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+  phoneNumber: z.string().min(10, {
     message: "Моля, въведете валиден телефонен номер",
   }),
   isSaveData: z.enum(["yes", "no"]),
@@ -163,7 +163,7 @@ export default function ClientPage({ userDeliveryData }: ClientPageProps) {
               <FormItem>
                 <FormLabel>Телефонен номер</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={form.formState.isSubmitting} />
+                  <Input type="tel" {...field} />
                 </FormControl>
                 <FormMessage />
                 <FormDescription>
@@ -199,38 +199,40 @@ export default function ClientPage({ userDeliveryData }: ClientPageProps) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="isSaveData"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Запазване на данните</FormLabel>
-                <FormControl>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={form.formState.isSubmitting}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Изберете от падащото меню" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Да</SelectItem>
-                      <SelectItem value="no">Не</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-                <FormDescription>
-                  Ако изберете &quot;Да&quot;, ще можете се възползвате от
-                  автоматично попълване на полетата с Вашите данни. Състемата ще
-                  запази следните данни: име и фамилия, имейл адрес, адрес за
-                  доставка, град за доставка и телефонен номер
-                </FormDescription>
-              </FormItem>
-            )}
-          />
+          {!userDeliveryData && (
+            <FormField
+              control={form.control}
+              name="isSaveData"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Запазване на данните</FormLabel>
+                  <FormControl>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={form.formState.isSubmitting}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Изберете от падащото меню" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="yes">Да</SelectItem>
+                        <SelectItem value="no">Не</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                  <FormDescription>
+                    Ако изберете &quot;Да&quot;, ще можете се възползвате от
+                    автоматично попълване на полетата с Вашите данни. Състемата
+                    ще запази следните данни: име и фамилия, имейл адрес, адрес
+                    за доставка, град за доставка и телефонен номер
+                  </FormDescription>
+                </FormItem>
+              )}
+            />
+          )}
 
           <div>
             Ако направите поръчка, Вие се съгласявате с нашата{" "}
