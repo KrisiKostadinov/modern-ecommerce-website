@@ -1,4 +1,5 @@
-import fs from "node:fs";
+import path from "path";
+import fs from "node:fs/promises";
 
 export function replaceVariables(
   template: string,
@@ -22,10 +23,8 @@ export function replaceVariables(
   }
 }
 
-export function loadHtmlFile(filename: string) {
-  const html = fs.readFileSync(
-    process.cwd() + `/html-templates/${filename}.html`,
-    "utf-8"
-  );
+export async function loadHtmlFile(filename: string) {
+  const filePath = path.join(process.cwd(), 'html-templates', `${filename}.html`);
+  const html = await fs.readFile(filePath, 'utf-8');
   return html;
 }
