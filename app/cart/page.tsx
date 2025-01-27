@@ -16,7 +16,7 @@ export type CartItemWithProduct = {
 };
 
 export const metadata: Metadata = {
-  title: "Кошница - Подари усмивка",
+  title: `Кошница - ${process.env.WEBSITE_TITLE}`,
 };
 
 export default async function Cart() {

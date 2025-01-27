@@ -3,7 +3,7 @@ import DisplayCategories from "@/app/(root)/_components/display-categories";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Категории - Подари усмивка",
+  title: `Категории - ${process.env.WEBSITE_TITLE}`,
 }
 
 export default async function Categories() {

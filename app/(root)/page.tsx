@@ -7,7 +7,7 @@ import DisplayCategories from "@/app/(root)/_components/display-categories";
 import { DisplayProductsWrapper } from "../categories/[slug]/_components/display-products-wrapper";
 
 export const metadata: Metadata = {
-  title: "Подаръци за всеки с усмивка - Подари усмивка",
+  title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
 };
 
 export default async function Home() {

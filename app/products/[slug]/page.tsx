@@ -22,11 +22,11 @@ export async function generateMetadata({
   }
 
   return {
-    title: product.name + " - " + " Подари усмивка",
+    title: `${product.name} - ${process.env.WEBSITE_TITLE}`,
     description: product.metaDescription || "",
     keywords: product.metaKeywords || "",
     product: {
-      brand: "Подари усмивка",
+      brand: process.env.WEBSITE_TITLE,
       name: product.name,
       description: product.metaDescription || "",
       offers: {
@@ -35,7 +35,7 @@ export async function generateMetadata({
         availability: "InStock",
         url: process.env.NEXT_PUBLIC_SITE_URL + "/products/" + product.slug,
         seller: {
-          name: "Подари усмивка",
+          name: process.env.WEBSITE_TITLE,
         },
       },
     },
@@ -44,11 +44,11 @@ export async function generateMetadata({
     },
     category: "product",
     robots: "index, follow",
-    creator: "Подари усмивка",
-    publisher: "Подари усмивка",
+    creator: process.env.WEBSITE_TITLE,
+    publisher: process.env.WEBSITE_TITLE,
     classification: "product",
     openGraph: {
-      title: product.name + " - " + "Подари усмивка",
+      title: product.name + " - " + process.env.WEBSITE_TITLE,
       description: product.metaDescription || "",
       type: "article",
       images: [
@@ -60,7 +60,7 @@ export async function generateMetadata({
         },
       ],
       locale: "bg_BG",
-      siteName: "Подари усмивка",
+      siteName: process.env.WEBSITE_TITLE,
       countryName: "България",
       url: process.env.NEXT_PUBLIC_SITE_URL + "/products/" + product.slug,
       publishedTime: product.createdAt.toISOString(),

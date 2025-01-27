@@ -9,7 +9,7 @@ export default function Header() {
       <div className="relative z-10 flex items-center justify-center h-full px-6 text-center text-white">
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-            Подари усмивка с перфектния подарък!
+            Подаръци с любов!
           </h1>
           <p className="text-xl md:text-2xl mb-6">
             Намери уникални подаръци за всяка специална личност и момент.
