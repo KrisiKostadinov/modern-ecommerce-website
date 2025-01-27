@@ -39,7 +39,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
           <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {categories.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold mb-5">Категории</h2>
+                <h2 className="text-xl font-semibold my-5">Категории</h2>
                 <ul className="flex flex-col gap-2">
                   {categories.map((x, index) => (
                     <li key={index}>
@@ -53,7 +53,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
             )}
             {!session?.user ? (
               <div>
-                <h2 className="text-xl font-semibold mb-5">Акаунт</h2>
+                <h2 className="text-xl font-semibold my-5">Акаунт</h2>
                 <ul className="flex flex-col gap-2">
                   <li>
                     <Link
@@ -79,7 +79,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
               </div>
             ) : (
               <div>
-                <h2 className="text-xl font-semibold mb-5">Акаунт</h2>
+                <h2 className="text-xl font-semibold my-5">Акаунт</h2>
                 <ul className="flex flex-col gap-2">
                   <li>
                     <Link
@@ -95,7 +95,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
               </div>
             )}
             <div>
-              <h2 className="text-xl font-semibold mb-5">Правни</h2>
+              <h2 className="text-xl font-semibold my-5">Правни</h2>
               <ul className="flex flex-col gap-2">
                 <li>
                   <Link
@@ -122,7 +122,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
               </ul>
             </div>
             <div>
-              <h2 className="text-xl font-semibold mb-5">Информация</h2>
+              <h2 className="text-xl font-semibold my-5">Информация</h2>
               <ul className="flex flex-col gap-2">
                 <li>
                   <Link

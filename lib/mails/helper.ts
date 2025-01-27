@@ -1,6 +1,3 @@
-import path from "path";
-import fs from "node:fs/promises";
-
 export function replaceVariables(
   template: string,
   values: Record<string, string>
@@ -21,10 +18,4 @@ export function replaceVariables(
 
     return { success: false, result: "An unknown error occurred." };
   }
-}
-
-export async function loadHtmlFile(filename: string) {
-  const filePath = path.join(process.cwd(), 'html-templates', `${filename}.html`);
-  const html = await fs.readFile(filePath, 'utf-8');
-  return html;
 }

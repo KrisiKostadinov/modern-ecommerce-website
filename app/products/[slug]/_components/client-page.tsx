@@ -86,9 +86,9 @@ export default function ClientPage({
           </div>
         )}
         <div>
-          <ScrollArea className="flex flex-col space-y-5 h-[600px]">
+          <ScrollArea className="flex flex-col max-h-[600px]">
             {isInCart && <AlertMessage productId={product.id} />}
-            <div className="bg-white border rounded shadow py-3 px-4 mt-5">
+            <div className="bg-white border rounded shadow py-3 px-4">
               <h1 className="text-3xl font-bold mb-5">{product.name}</h1>
               <p className={!isShowDescription ? "line-clamp-4" : ""}>
                 {product.description}

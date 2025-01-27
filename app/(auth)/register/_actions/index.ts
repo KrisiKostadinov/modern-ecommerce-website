@@ -4,7 +4,7 @@ import { randomBytes } from "crypto";
 import bcrypt from "bcryptjs";
 
 import { formSchema, FormSchemaProps } from "@/app/(auth)/register/_schemas";
-import { loadHtmlFile, replaceVariables } from "@/lib/mails/helper";
+import { replaceVariables } from "@/lib/mails/helper";
 import { sendEmail } from "@/lib/mails/send-email";
 import { prisma } from "@/db/prisma";
 
@@ -75,17 +75,24 @@ export const registerUser = async (values: FormSchemaProps) => {
         sales_phone: process.env.ADMIN_SALES_PHONE || "",
       };
 
-      const html = await loadHtmlFile("email-confirmation");
-      const emailTemplate = replaceVariables(html, emailValues);
+      const emailTemplate = await prisma.emailTemplate.findFirst({
+        where: { key: "email-confirmation" },
+      });
 
-      if (!emailTemplate.success) {
-        throw new Error(emailTemplate.result);
+      if (!emailTemplate) {
+        return { error: "" };
+      }
+
+      const replacedHtml = replaceVariables(emailTemplate.code, emailValues);
+
+      if (!replacedHtml.success) {
+        throw new Error(replacedHtml.result);
       }
 
       const result = await sendEmail({
         to: values.email,
         subject: "Потвърждение на имейл",
-        html: emailTemplate.result,
+        html: replacedHtml.result,
         allowReply: false,
       });
 

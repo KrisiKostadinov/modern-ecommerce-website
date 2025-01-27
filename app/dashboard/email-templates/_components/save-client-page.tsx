@@ -143,7 +143,6 @@ export default function ClientPage({ emailTemplate }: UpdateFormProps) {
                         placeholder="Например, email-confirmation"
                         aria-label="Ключ на темплейта"
                         value={field.value ?? ""}
-                        autoFocus
                       />
                     </FormControl>
                     <FormMessage />

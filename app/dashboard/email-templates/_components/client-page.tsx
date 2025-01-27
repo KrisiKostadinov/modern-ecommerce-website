@@ -16,6 +16,14 @@ import deleteAction from "../_actions/delete";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type ClientPageProps = {
   emailTemplates: EmailTemplate[];
@@ -65,73 +73,64 @@ export default function ClientPage({ emailTemplates }: ClientPageProps) {
           }}
         />
         <ScrollArea className="bg-white border rounded-md py-3 px-4">
-          <table className="border-collapse w-full text-left min-w-[768px]">
-            <thead>
-              <tr className="border">
-                <th className="border py-1 px-2">Име</th>
-                <th className="border py-1 px-2">Ключ</th>
-                <th className="border py-1 px-2">Описание</th>
-                <th className="border py-1 px-2">Опции</th>
-              </tr>
-            </thead>
-            <tbody>
-              {emailTemplates.length > 0 ? (
-                emailTemplates.map((emailTemplate, index) => (
-                  <tr key={index}>
-                    <td className="max-w-xs border py-1 px-2">
-                      {emailTemplate.name}
-                    </td>
-                    <td className="max-w-xl border py-1 px-2">
-                      {emailTemplate.key ? (
-                        emailTemplate.key
-                      ) : (
-                        <div className="text-muted-foreground">Няма</div>
-                      )}
-                    </td>
-                    <td className="max-w-xl border py-1 px-2">
-                      {emailTemplate.description ? (
-                        emailTemplate.description
-                      ) : (
-                        <div className="text-muted-foreground">Няма</div>
-                      )}
-                    </td>
-                    <td className="max-w-xl border py-1 px-2">
-                      <Popover>
-                        <PopoverTrigger>
-                          <MenuIcon />
-                        </PopoverTrigger>
-                        <PopoverContent align="end" className="space-y-1">
-                          <h2 className="mb-1">Опции</h2>
-                          <Button
-                            variant={"outline"}
-                            className="w-full justify-start"
-                            onClick={() => onUpdate(emailTemplate.id)}
-                            disabled={isLoading}
-                          >
-                            Промяна
-                          </Button>
-                          <Button
-                            variant={"outline"}
-                            className="w-full justify-start"
-                            onClick={() => onDelete(emailTemplate.id)}
-                            disabled={isLoading}
-                          >
-                            {isLoading ? "Зареждане..." : "Изтриване"}
-                          </Button>
-                        </PopoverContent>
-                      </Popover>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr className="text-muted-foreground">
-                  <td className="border py-1 px-2" colSpan={3}>
-                    Няма намерени записи
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <Table className="border-collapse w-full text-left min-w-[1280px]">
+            <TableHeader>
+              <TableRow className="border">
+                <TableHead className="border w-[100px]">Име</TableHead>
+                <TableHead className="border w-[100px]">Ключ</TableHead>
+                <TableHead className="border">Описание</TableHead>
+                <TableHead className="border w-[200px]">
+                  Добавен HTML код
+                </TableHead>
+                <TableHead className="border w-[40px]">Опции</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {emailTemplates.map((emailTemplate, index) => (
+                <TableRow className="border" key={index}>
+                  <TableCell className="w-[200px] border font-medium">
+                    {emailTemplate.name}
+                  </TableCell>
+                  <TableCell className="w-[200px] border">{emailTemplate.key}</TableCell>
+                  <TableCell className="border">
+                    {emailTemplate.description &&
+                    emailTemplate.description.length > 190
+                      ? emailTemplate.description.slice(0, 190) + "..."
+                      : emailTemplate.description}
+                  </TableCell>
+                  <TableCell className="border">
+                    {emailTemplate.code ? "Да" : "Не"}
+                  </TableCell>
+                  <TableCell className="border text-center">
+                    <Popover>
+                      <PopoverTrigger>
+                        <MenuIcon />
+                      </PopoverTrigger>
+                      <PopoverContent align="end" className="space-y-1">
+                        <h2 className="mb-1">Опции</h2>
+                        <Button
+                          variant={"outline"}
+                          className="w-full justify-start"
+                          onClick={() => onUpdate(emailTemplate.id)}
+                          disabled={isLoading}
+                        >
+                          Промяна
+                        </Button>
+                        <Button
+                          variant={"outline"}
+                          className="w-full justify-start"
+                          onClick={() => onDelete(emailTemplate.id)}
+                          disabled={isLoading}
+                        >
+                          {isLoading ? "Зареждане..." : "Изтриване"}
+                        </Button>
+                      </PopoverContent>
+                    </Popover>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </PageWrapper>
