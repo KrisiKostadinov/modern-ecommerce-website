@@ -198,3 +198,11 @@ enum PaymentStatus {
   FAILED
   REFUNDED
 }
+
+model EmailTemplate {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  code String
+  name String
+  description String?
+  key String?
+}

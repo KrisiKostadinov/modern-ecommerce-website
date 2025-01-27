@@ -41,14 +41,6 @@ export default function Navbar() {
                   Табло
                 </Link>
                 <Link
-                  href="/dashboard/users"
-                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
-                  prefetch={false}
-                  onClick={() => setIsOpen(false)}
-                >
-                  Потребители
-                </Link>
-                <Link
                   href="/dashboard/orders?status=confirmed"
                   className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
                   prefetch={false}
@@ -72,6 +64,22 @@ export default function Navbar() {
                 >
                   Категории
                 </Link>
+                <Link
+                  href="/dashboard/users"
+                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                  prefetch={false}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Потребители
+                </Link>
+                <Link
+                  href="/dashboard/email-templates"
+                  className="flex w-full items-center py-2 text-lg font-semibold hover:bg-slate-100 px-5 rounded"
+                  prefetch={false}
+                  onClick={() => setIsOpen(false)}
+                >
+                  Имейл темплейти
+                </Link>
               </div>
             </SheetDescription>
           </SheetHeader>
@@ -93,11 +101,11 @@ export default function Navbar() {
           Табло
         </Link>
         <Link
-          href="/dashboard/users"
+          href="/dashboard/orders?status=confirmed"
           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
           prefetch={false}
         >
-          Потребители
+          Поръчки
         </Link>
         <Link
           href="/dashboard/products"
@@ -107,18 +115,25 @@ export default function Navbar() {
           Продукти
         </Link>
         <Link
-          href="/dashboard/orders?status=confirmed"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
-          prefetch={false}
-        >
-          Поръчки
-        </Link>
-        <Link
           href="/dashboard/categories"
           className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
           prefetch={false}
         >
           Категории
+        </Link>
+        <Link
+          href="/dashboard/users"
+          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+          prefetch={false}
+        >
+          Потребители
+        </Link>
+        <Link
+          href="/dashboard/email-templates"
+          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
+          prefetch={false}
+        >
+          Имейл темплейти
         </Link>
       </nav>
     </header>
