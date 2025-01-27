@@ -58,8 +58,8 @@ export default async function RootLayout({
             session={session}
             categories={footerCategories}
             contactsInfo={{
-              phone: process.env.ADMIN_SALES_PHONE || "",
-              email: process.env.ADMIN_SALES_EMAIL || "",
+              phone: process.env.ADMIN_SUPPORT_PHONE || "",
+              email: process.env.ADMIN_SUPPORT_EMAIL || "",
             }}
           />
         </SessionProvider>

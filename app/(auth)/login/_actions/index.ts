@@ -1,34 +1,28 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { redirect } from "next/navigation";
 
 import { prisma } from "@/db/prisma";
-import { FormSchemaProps, formSchema } from "@/app/(auth)/register/_schemas";
+import { FormSchemaProps, formSchema } from "@/app/(auth)/login/_schemas";
 
-export const registerUser = async (values: FormSchemaProps) => {
+export const loginAction = async (values: FormSchemaProps) => {
   const validatedValues = formSchema.safeParse(values);
 
   if (!validatedValues.success) {
     return { error: "Данните в полетата са невалидни" };
   }
 
-  const isUserExisting = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { email: values.email },
   });
 
-  if (isUserExisting) {
-    return { error: "Този потребител вече съществува" };
+  if (!user) {
+    return { error: "Имейл адресът или паролата са невалидни" };
   }
-
-  const hashedPassword = await bcrypt.hash(values.password, 10);
-
-  await prisma.user.create({
-    data: {
-      email: values.email,
-      password: hashedPassword
-    },
-  });
-
-  redirect("/login");
+  
+  if (!bcrypt.compareSync(values.password, user.password)) {
+    return { error: "Имейл адресът или паролата са невалидни" };
+  }
+  
+  return { message: "Влизането беше успешно" };
 };

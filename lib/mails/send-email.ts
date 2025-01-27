@@ -34,12 +34,8 @@ export async function sendEmail({
   });
 
   try {
-    const from = `${process.env.WEBSITE_TITLE} <${
-      !allowReply ? "no-reply@" + process.env.DOMAIN : process.env.EMAIL_SERVER_DOMAIN
-    }>`;
-
     const emailOptions: nodemailer.SendMailOptions = {
-      from,
+      from: `${process.env.WEBSITE_TITLE} <${process.env.EMAIL_SERVER_USERNAME}>`,
       to,
       subject,
       html,

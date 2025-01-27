@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{website_name}} - Потвърждение на имейл</title>
+    <title>{{website_name}} - Забравена парола</title>
     <style>
       .container {
         width: 100%;
@@ -34,7 +34,7 @@
         margin-top: 40px;
       }
 
-      .email-confirmation-card {
+      .email-reset-card {
         max-width: 32rem;
         margin: 0 auto 0;
         background-color: #ffffff;
@@ -60,7 +60,7 @@
         text-align: center;
       }
 
-      .confirmation-button {
+      .reset-button {
         padding: 0.75rem 1rem;
         margin: 2rem 0;
         font-size: 20px;
@@ -76,7 +76,7 @@
         text-decoration: none;
       }
 
-      .confirmation-button:hover {
+      .reset-button:hover {
         background-color: #111111;
       }
 
@@ -104,32 +104,32 @@
   <body>
     <div class="container">
       <div class="logo">logo</div>
-      <div class="pink-header">Благодарим Ви, че се регистрирахте!</div>
-      <div class="email-confirmation-card">
-        <h1 class="email-title">Потвърждение на имейл</h1>
+      <div class="pink-header">Заявка за възстановяване на парола</div>
+      <div class="email-reset-card">
+        <h1 class="email-title">Възстановете паролата си</h1>
         <p class="email-description">
-          Регистрацията Ви в нашия онлайн магазин за подаъци бе успешна.
-          За да завършите регистрацията, моля, потвърдете вашия имейл адрес,
-          като кликнете върху линка, който ви изпратихме.
+          Получихме заявка за възстановяване на паролата за вашия профил в
+          {{website_name}}. Ако искате да смените паролата си, моля, кликнете на
+          бутона по-долу. Ако не сте направили тази заявка, игнорирайте това съобщение.
         </p>
         <div class="button-container">
-          <a href="{{link}}" class="confirmation-button">Потвърждение на имейл</a>
+          <a href="{{link}}" class="reset-button">Възстанови паролата</a>
         </div>
         <div class="contact-info">
           <p>
-            Ако имате въпроси, не се колебайте да се свържете с нас по някой от
-            следните начини:
+            Ако имате въпроси или нужда от съдействие, не се колебайте да се свържете
+            с нас:
           </p>
           <ul>
-            <li><a href="mailto:{{sales_email}}">{{sales_email}}</a> или на</li>
-            <li><a href="mailto:{{sales_phone}}">{{sales_phone}}</a>.</li>
+            <li><a href="mailto:{{support_email}}">{{support_email}}</a></li>
+            <li><a href="tel:{{support_phone}}">{{support_phone}}</a></li>
           </ul>
-          <div class="footer">
-              <a href="{{website_url}}/terms" target="_blank">Общи условия</a>
-              <span> / </span>
-              <a href="{{website_url}}/privacy-policy" target="_blank">Политика на поверителност</a>
-              <p>&copy; {{current_year}} {{website_name}}</p>
-          </div>
+        </div>
+        <div class="footer">
+          <a href="{{website_url}}/terms" target="_blank">Общи условия</a>
+          <span> / </span>
+          <a href="{{website_url}}/privacy-policy" target="_blank">Политика на поверителност</a>
+          <p>&copy; {{current_year}} {{website_name}}</p>
         </div>
       </div>
     </div>

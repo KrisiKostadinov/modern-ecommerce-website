@@ -1,25 +1,12 @@
 "use server";
 
-import { randomBytes } from "crypto";
 import bcrypt from "bcryptjs";
 
 import { formSchema, FormSchemaProps } from "@/app/(auth)/register/_schemas";
 import { replaceVariables } from "@/lib/mails/helper";
 import { sendEmail } from "@/lib/mails/send-email";
 import { prisma } from "@/db/prisma";
-
-const generateConfirmationLink = (id: string, token: string): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const confirmationLink = `${baseUrl}/confirm/${id}?token=${token}`;
-
-  return confirmationLink;
-};
-
-const generateToken = (length: number = 32): string => {
-  const buffer = randomBytes(length);
-  const token = buffer.toString("hex");
-  return token;
-};
+import { generateToken, generateConfirmationLink } from "@/app/(auth)/_actions";
 
 export const registerUser = async (values: FormSchemaProps) => {
   const validatedValues = formSchema.safeParse(values);
@@ -42,7 +29,7 @@ export const registerUser = async (values: FormSchemaProps) => {
 
   const role = numberOfUsers === 0 ? "ADMIN" : "USER";
 
-  const token = generateToken();
+  const token = await generateToken();
   
   try {
     await prisma.$transaction(async (prismaTransaction) => {
@@ -62,7 +49,7 @@ export const registerUser = async (values: FormSchemaProps) => {
         },
       });
 
-      const link = generateConfirmationLink(createdUser.id, token);
+      const link = await generateConfirmationLink(createdUser.id, token);
 
       const emailValues = {
         website_name: process.env.WEBSITE_TITLE || "",
@@ -71,16 +58,16 @@ export const registerUser = async (values: FormSchemaProps) => {
         email: values.email || "",
         link: link,
         website_email: process.env.NEXT_PUBLIC_SITE_URL || "",
-        sales_email: process.env.ADMIN_SALES_EMAIL || "",
-        sales_phone: process.env.ADMIN_SALES_PHONE || "",
+        support_email: process.env.ADMIN_SUPPORT_EMAIL || "",
+        support_phone: process.env.ADMIN_SUPPORT_PHONE || "",
       };
 
       const emailTemplate = await prisma.emailTemplate.findFirst({
         where: { key: "email-confirmation" },
       });
 
-      if (!emailTemplate) {
-        return { error: "" };
+      if (!emailTemplate || !emailTemplate.code) {
+        return { error: "Имейл темплейтът не е намерен" };
       }
 
       const replacedHtml = replaceVariables(emailTemplate.code, emailValues);

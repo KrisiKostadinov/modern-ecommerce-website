@@ -16,23 +16,38 @@ export const { auth, handlers } = NextAuth({
         const validatedValues = formSchema.safeParse(credentials);
 
         if (!validatedValues.success) {
-          throw new Error("Данните в полетата са невалидни");
+          return null;
         }
-        
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         });
-        
+
         if (!user) {
-          throw new Error("Invalid credentials");
+          return null;
         }
 
         if (bcrypt.compareSync(credentials.password as string, user.password)) {
           return { id: user.id, email: user.email };
         } else {
-          throw new Error("Invalid credentials");
+          return null;
         }
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
+  callbacks: {
+    async signIn({ user }) {
+      if (!user) {
+        console.log("Sign-in failed: Invalid credentials or user not found");
+      }
+      return !!user;
+    },
+    async session({ session }) {
+      return session;
+    },
+  },
 });
