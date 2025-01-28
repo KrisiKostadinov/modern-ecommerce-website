@@ -11,6 +11,7 @@ import Footer from "@/components/footer";
 export const metadata: Metadata = {
   title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
   description: "Намери уникални подаръци за всяка специална личност и момент.",
+  robots: "noindex, nofollow",
   openGraph: {
     title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
     description: "Намери уникални подаръци за всяка специална личност и момент.",
@@ -72,8 +73,19 @@ export default async function RootLayout({
               email: process.env.ADMIN_SUPPORT_EMAIL || "",
             }}
           />
+            <DevelopmentNotice />
         </SessionProvider>
       </body>
     </html>
+  );
+}
+
+export function DevelopmentNotice() {
+  return (
+    <div className="sticky bottom-0 left-0 w-full bg-yellow-500 text-white text-center p-4 shadow-lg z-50">
+      <p className="font-bold text-lg">
+        🚧 Сайтът е в процес на разработка. Очаквайте скоро! 🚀
+      </p>
+    </div>
   );
 }
