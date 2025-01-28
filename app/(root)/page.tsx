@@ -4,10 +4,15 @@ import { Metadata } from "next";
 import { prisma } from "@/db/prisma";
 import Header from "@/app/(root)/_components/header";
 import DisplayCategories from "@/app/(root)/_components/display-categories";
-import { DisplayProductsWrapper } from "../categories/[slug]/_components/display-products-wrapper";
+import { DisplayProductsWrapper } from "@/app/categories/[slug]/_components/display-products-wrapper";
 
 export const metadata: Metadata = {
   title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
+  description: "Намери уникални подаръци за всяка специална личност и момент.",
+  openGraph: {
+    title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
+    description: "Намери уникални подаръци за всяка специална личност и момент.",
+  }
 };
 
 export default async function Home() {
