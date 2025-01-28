@@ -24,7 +24,7 @@ export default async function PasswordReset({ searchParams }: ConfirmProps) {
 
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  const token = await prisma.token.findUnique({
+  const token = await prisma.token.findMany({
     where: {
       token: tokenParam,
       userId: userIdParam,

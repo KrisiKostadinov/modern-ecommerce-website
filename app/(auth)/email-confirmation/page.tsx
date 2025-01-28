@@ -21,7 +21,7 @@ export default async function Confirm({ searchParams }: ConfirmProps) {
 
   const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  const token = await prisma.token.findUnique({
+  const token = await prisma.token.findFirst({
     where: {
       token: tokenParam,
       userId: userIdParam,
@@ -35,7 +35,7 @@ export default async function Confirm({ searchParams }: ConfirmProps) {
     return redirect("/");
   }
 
-  await prisma.token.delete({
+  await prisma.token.deleteMany({
     where: { token: tokenParam, userId: userIdParam },
   });
 

@@ -27,7 +27,7 @@ export async function passwordReset(token: string, userId: string, values: FormS
         throw new Error("Този потребител не е намерен");
       }
 
-      const foundedToken = await tx.token.findUnique({
+      const foundedToken = await tx.token.findFirst({
         where: {
           token,
           userId,
@@ -51,7 +51,7 @@ export async function passwordReset(token: string, userId: string, values: FormS
         },
       });
 
-      await tx.token.delete({
+      await tx.token.deleteMany({
         where: { userId, token },
       });
 
