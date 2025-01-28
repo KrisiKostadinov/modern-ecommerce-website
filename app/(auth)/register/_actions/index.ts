@@ -29,7 +29,7 @@ export const registerUser = async (values: FormSchemaProps) => {
 
   const role = numberOfUsers === 0 ? "ADMIN" : "USER";
 
-  const token = await generateToken();
+  const token = await generateToken(512);
   
   try {
     await prisma.$transaction(async (prismaTransaction) => {
@@ -49,7 +49,7 @@ export const registerUser = async (values: FormSchemaProps) => {
         },
       });
 
-      const link = await generateConfirmationLink(createdUser.id, token);
+      const link = await generateConfirmationLink(createdUser.id, token, "email-confirmation");
 
       const emailValues = {
         website_name: process.env.WEBSITE_TITLE || "",
