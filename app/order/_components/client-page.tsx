@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { UserDeliveryData } from "@/app/order/_actions/helper";
 import { createOrderAction } from "@/app/order/_actions/create-order";
+import { redirect } from "next/navigation";
 
 export const formSchema = z.object({
   fullname: z
@@ -70,10 +71,15 @@ export default function ClientPage({ userDeliveryData }: ClientPageProps) {
 
   const onSubmit = async (values: FormSchemaProps) => {
     const result = await createOrderAction(values);
-
-    if (result.error) {
-      toast.error("Нещо се обърка");
+  
+    if ("error" in result) {
+      toast.error(result.error || "Нещо се обърка");
       return;
+    }
+  
+    if (result.success && result.orderNumber) {
+      toast.success("Поръчката е успешно създадена!");
+      return redirect(`/success-order/${result.orderNumber}`);
     }
   };
 

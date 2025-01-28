@@ -1,6 +1,11 @@
 "use client";
 
-import { ChevronDown, ChevronUp, ShoppingBagIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  ShoppingBagIcon,
+  ShoppingBasket,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -134,6 +139,12 @@ export default function ClientPage({
                     )}
                   </div>
                 </div>
+                {isInCart && (
+                  <Button variant={"outline"} className="w-full">
+                    <ShoppingBasket />
+                    <Link href={"/cart"}>Отиване към кошницата</Link>
+                  </Button>
+                )}
                 <Button
                   size={"lg"}
                   className="w-full"

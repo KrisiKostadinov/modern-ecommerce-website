@@ -6,6 +6,7 @@ import { prisma } from "@/db/prisma";
 import { formatPrice } from "@/lib/utils";
 import { OrderProduct } from "@/app/order/_actions/create-order";
 import { Button } from "@/components/ui/button";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export const metadata: Metadata = {
   title: "Завършване на поръчката - Подаръ усмивка",
@@ -47,8 +48,8 @@ export default async function SuccessOrder({
             <strong>Важно! </strong>
             <span>Доставката ще бъде направена в рамките на 3 работни дни</span>
           </div>
-          <div className="overflow-x-scroll">
-            <table className="border-collapse w-full text-left">
+          <ScrollArea className="bg-white border rounded-md py-3 px-4">
+            <table className="border-collapse w-full text-left min-w-[900px]">
               <thead>
                 <tr>
                   <th className="border py-1 px-2">&#8470;</th>
@@ -76,10 +77,11 @@ export default async function SuccessOrder({
                 </tr>
               </tbody>
             </table>
-          </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
           <h2 className="text-xl my-5">Поръчани продукти</h2>
-          <div className="overflow-x-scroll">
-            <table className="border-collapse w-full text-left">
+          <ScrollArea className="bg-white border rounded-md py-3 px-4">
+            <table className="border-collapse w-full text-left min-w-[600px]">
               <thead>
                 <tr>
                   <th className="border py-1 px-2">Име</th>
@@ -106,13 +108,12 @@ export default async function SuccessOrder({
                 ))}
               </tbody>
             </table>
-          </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         </div>
         <div className="mt-3 flex justify-center">
           <Link href={"/categories"}>
-            <Button size={"lg"}>
-              Обравно към магазина
-            </Button>
+            <Button size={"lg"}>Обравно към магазина</Button>
           </Link>
         </div>
       </div>
