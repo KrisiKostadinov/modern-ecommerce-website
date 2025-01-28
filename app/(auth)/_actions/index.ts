@@ -7,11 +7,12 @@ import { randomBytes } from "crypto";
  *
  * @param id - The unique identifier for the user.
  * @param token - The token to be included in the confirmation link.
+ * @param route - The route to be redirect from the email message.
  * @returns The generated confirmation link as a string.
  */
-export const generateConfirmationLink = async (id: string, token: string): Promise<string> => {
+export const generateConfirmationLink = async (id: string, token: string, route: string): Promise<string> => {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const confirmationLink = `${baseUrl}/confirm/${id}?token=${token}`;
+  const confirmationLink = `${baseUrl}/${route}?token=${token}&id=${id}`;
 
   return confirmationLink;
 };

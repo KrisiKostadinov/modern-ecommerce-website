@@ -114,7 +114,7 @@ export default function TheForm() {
             variant={"link"}
             className="w-fit mx-auto mt-5"
           >
-            <Link href={"/register"}>Вече имате акаунт?</Link>
+            <Link href={"/register"}>Все още нямате акаунт?</Link>
           </Button>
           <Button
             type="button"

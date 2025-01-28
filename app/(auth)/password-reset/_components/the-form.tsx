@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -17,21 +16,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { formSchema, FormSchemaProps } from "@/app/(auth)/register/_schemas";
-import { registerUser } from "@/app/(auth)/register/_actions";
+import { formSchema, FormSchemaProps } from "@/app/(auth)/password-reset/_schemas";
+import { passwordReset } from "@/app/(auth)/password-reset/_actions";
 
-export default function TheForm() {
+type TheFormProps = {
+  token: string;
+  id: string;
+}
+
+export default function TheForm({ token, id }: TheFormProps) {
   const router = useRouter();
   const form = useForm<FormSchemaProps>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
       password: "",
+      cpassword: "",
     },
   });
 
   const onSubmit = async (values: FormSchemaProps) => {
-    const result = await registerUser(values);
+    const result = await passwordReset(token, id, values);
 
     if (result.error) {
       return toast.error(result.error);
@@ -46,14 +50,14 @@ export default function TheForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="email"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Имейл адрес</FormLabel>
+              <FormLabel>Нова парола</FormLabel>
               <FormControl>
                 <Input
-                  type="email"
-                  placeholder="Въведете имейл адресът си"
+                  type="password"
+                  placeholder="Въведете нова сигурна парола"
                   {...field}
                   disabled={form.formState.isSubmitting}
                 />
@@ -64,14 +68,14 @@ export default function TheForm() {
         />
         <FormField
           control={form.control}
-          name="password"
+          name="cpassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Парола</FormLabel>
+              <FormLabel>Потвърдете паролата</FormLabel>
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Въведете силна парола"
+                  placeholder="Въведете отново новата парола"
                   {...field}
                   disabled={form.formState.isSubmitting}
                 />
@@ -80,30 +84,11 @@ export default function TheForm() {
             </FormItem>
           )}
         />
-        <div>
-          Ако се регистрирате, Вие се съгласявате с нашата{" "}
-          <Link href={"/privacy-policy"} className="underline font-semibold">
-            Политика за поверителност
-          </Link>{" "}
-          и{" "}
-          <Link href={"/terms"} className="underline font-semibold">
-            Общите условия
-          </Link>
-          .
-        </div>
         <div className="flex flex-col">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {!form.formState.isSubmitting
-              ? "Създаване на акаунт"
+              ? "Смяна на паролата"
               : "Зареждане..."}
-          </Button>
-          <Button
-            type="button"
-            disabled={form.formState.isSubmitting}
-            variant={"link"}
-            className="w-fit mx-auto mt-5"
-          >
-            <Link href={"/login"}>Вече имате акаунт?</Link>
           </Button>
         </div>
       </form>

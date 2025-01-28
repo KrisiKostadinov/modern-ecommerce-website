@@ -21,8 +21,8 @@ export async function forgotPasswordAction(values: FormSchemaProps) {
     return { error: "Този имейл адрес не е намерен" };
   }
 
-  const token = await generateToken(64);
-  const link = await generateConfirmationLink(user.id, token);
+  const token = await generateToken(512);
+  const link = await generateConfirmationLink(user.id, token, "password-reset");
 
   const emailValues = {
     website_name: process.env.WEBSITE_TITLE || "",
