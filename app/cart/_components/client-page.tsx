@@ -10,8 +10,8 @@ import { cn, formatPrice } from "@/lib/utils";
 import { CartItemWithProduct } from "@/app/cart/page";
 import { Button } from "@/components/ui/button";
 import updateQuantity from "@/app/cart/_actions/update-quantity";
-import removeCart from "@/app/cart/_actions/remove-cart";
-import removeProduct from "../_actions/remove-product-action";
+import removeProduct from "@/app/cart/_actions/remove-product-action";
+import { Card, CardHeader } from "@/components/ui/card";
 
 type ClientPageProps = {
   cartItemWithProducts: CartItemWithProduct[];
@@ -77,7 +77,7 @@ export default function ClientPage({
         if (!result.success) {
           return toast.error(result.error);
         }
-        
+
         return toast.success(result.success);
       }
 
@@ -93,11 +93,6 @@ export default function ClientPage({
       }, 1000);
       setTimeoutId(id);
     }
-  };
-
-  const onCancel = async () => {
-    if (!confirm("Сигурни ли сте, че искате да изпразните кошницата?")) return;
-    await removeCart();
   };
 
   return (
@@ -185,27 +180,20 @@ export default function ClientPage({
               </div>
             </div>
           ))}
-          <div className="bg-white border rounded-md py-3 px-4 space-y-5">
-            <div className="flex justify-between">
-              <h2 className="text-xl font-semibold">Възможности</h2>
-              <span className="text-xl">{formatPrice(totalAmount)}</span>
-            </div>
-            <div className="flex max-md:flex-col md:justify-between items-center gap-5">
-              <Button
-                size={"lg"}
-                onClick={onCancel}
-                variant={"destructive"}
-                className="max-md:w-full"
+          <Card className="w-full">
+            <CardHeader className="flex justify-between items-center w-full">
+              <p className="text-xl">{formatPrice(totalAmount)}</p>
+              <Link
+                href={"/order"}
+                className="w-full"
+                onClick={() => setIsLoading(true)}
               >
-                Изпрашване на кошницата
-              </Button>
-              <Link href={"/order"}>
-                <Button size={"lg"} className="max-md:w-full">
-                  Продължаване с поръчката
+                <Button size={"lg"} className="w-full" disabled={isLoading}>
+                  {isLoading ? "Зареждане..." : "Продължаване с поръчката"}
                 </Button>
               </Link>
-            </div>
-          </div>
+            </CardHeader>
+          </Card>
         </div>
       ) : (
         <div className="bg-white border p-10 text-gray-400 flex justify-center flex-col items-center gap-5">

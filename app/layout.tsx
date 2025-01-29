@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import { prisma } from "@/db/prisma";
 import { getCartItems } from "./cart/_actions/helper";
 import Footer from "@/components/footer";
-import { DevelopmentNotice } from "@/components/development-notice";
 
 export const metadata: Metadata = {
   title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
@@ -77,7 +76,6 @@ export default async function RootLayout({
             }}
           />
         </SessionProvider>
-        <DevelopmentNotice />
       </body>
     </html>
   );

@@ -120,13 +120,14 @@ export default function Navbar({
       </Sheet>
 
       <Link href="/" prefetch={false}>
-          <Image
-            src={"/images/logo.png"}
-            alt="Госпожа Роза"
-            width={40}
-            height={40}
-            priority
-          />
+        <Image
+          src={"/images/logo.png"}
+          alt="Госпожа Роза"
+          width={40}
+          height={40}
+          priority
+          className="w-[40px] h-[40px] object-cover"
+        />
       </Link>
 
       <nav className="hidden lg:flex">

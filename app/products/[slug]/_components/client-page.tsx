@@ -65,10 +65,6 @@ export default function ClientPage({
 
     if (result.error) {
       toast.error(result.error);
-    } else {
-      toast.success(result.message, {
-        position: "top-center",
-      });
     }
 
     router.refresh();
@@ -140,10 +136,16 @@ export default function ClientPage({
                   </div>
                 </div>
                 {isInCart && (
-                  <Button variant={"outline"} className="w-full">
-                    <ShoppingBasket />
-                    <Link href={"/cart"}>Отиване към кошницата</Link>
-                  </Button>
+                  <Link
+                    href={"/cart"}
+                    className="block"
+                    onClick={() => setIsLoading(true)}
+                  >
+                    <Button variant={"outline"} className="w-full">
+                      <ShoppingBasket />
+                      {isLoading ? "Зареждане..." : "Отиване към кошницата"}
+                    </Button>
+                  </Link>
                 )}
                 <Button
                   size={"lg"}
