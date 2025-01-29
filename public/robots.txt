@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 
+Disallow: /dashboard
+
 # Host
 Host: https://www.missisrose.com
 

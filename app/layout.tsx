@@ -12,7 +12,7 @@ import { DevelopmentNotice } from "@/components/development-notice";
 export const metadata: Metadata = {
   title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
   description: "Намери уникални подаръци за всяка специална личност и момент.",
-  robots: "noindex, nofollow",
+  robots: "index, follow",
   openGraph: {
     title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
     description: "Намери уникални подаръци за всяка специална личност и момент.",
