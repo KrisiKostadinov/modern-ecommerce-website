@@ -17,7 +17,7 @@ import { usePathname } from "next/navigation";
 export type ContactsInfo = {
   phone: string;
   email: string;
-}
+};
 
 type FooterProps = {
   session: Session | null;
@@ -25,7 +25,11 @@ type FooterProps = {
   contactsInfo: ContactsInfo;
 };
 
-export default function Footer({ session, categories, contactsInfo }: FooterProps) {
+export default function Footer({
+  session,
+  categories,
+  contactsInfo,
+}: FooterProps) {
   const pathname = usePathname();
 
   if (pathname.startsWith("/dashboard")) {
@@ -82,13 +86,9 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
                 <h2 className="text-xl font-semibold my-5">Акаунт</h2>
                 <ul className="flex flex-col gap-2">
                   <li>
-                    <Link
-                      href={"/account"}
-                      title="Моят акаунт"
-                      className="flex gap-2"
-                    >
+                    <Link href={"#"} title="Моят акаунт" className="flex gap-2">
                       <User2 />
-                      Моят акаунт
+                      {session.user.email}
                     </Link>
                   </li>
                 </ul>
@@ -99,7 +99,7 @@ export default function Footer({ session, categories, contactsInfo }: FooterProp
               <ul className="flex flex-col gap-2">
                 <li>
                   <Link
-                    href={"/privacy"}
+                    href={"/privacy-policy"}
                     title="Политика на поверителност"
                     className="flex gap-2"
                     target="_blank"
