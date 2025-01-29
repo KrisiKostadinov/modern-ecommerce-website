@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
       <h1 className="text-2xl font-semibold my-5">Политика на поверителност</h1>
       <Card className="mb-5">
         <CardHeader className="space-y-5">
-          <p>Дата на последна актуализация: [31.01.2025]</p>
+          <p>Дата на последна актуализация: [29.01.2025]</p>
           
           {/* 1. Събиране на информация */}
 

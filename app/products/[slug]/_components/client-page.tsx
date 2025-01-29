@@ -79,8 +79,8 @@ export default function ClientPage({
             <Image
               src={previewImage}
               alt={product.name}
-              width={800}
-              height={600}
+              width={400}
+              height={300}
               priority
               className="w-full h-full object-cover border rounded-md"
             />
