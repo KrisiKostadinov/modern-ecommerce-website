@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { prisma } from "@/db/prisma";
 import { getCartItems } from "./cart/_actions/helper";
 import Footer from "@/components/footer";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
@@ -14,16 +15,17 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     title: `${process.env.WEBSITE_SLOGUN} - ${process.env.WEBSITE_TITLE}`,
-    description: "Намери уникални подаръци за всяка специална личност и момент.",
+    description:
+      "Намери уникални подаръци за всяка специална личност и момент.",
     locale: "bg",
     images: [
       {
         url: "/images/logo.png",
         width: 1333,
         height: 2000,
-      }
+      },
     ],
-  }
+  },
 };
 
 export default async function RootLayout({
@@ -59,6 +61,7 @@ export default async function RootLayout({
   return (
     <html lang="bg">
       <body className="bg-slate-100">
+        <GoogleAnalytics gaId="G-N1YML7R32F" />
         <SessionProvider>
           <ToastContainer />
           <Navbar
